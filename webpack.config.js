@@ -20,7 +20,8 @@ const config = (env, argv) => {
                     test: /\.js$/,
                     loader: 'babel-loader',
                     query: {
-                        presets: ['@babel/preset-env', '@babel/preset-react']
+                        presets: ['@babel/preset-env', '@babel/preset-react'],
+                        plugins: ['babel-plugin-styled-components']
                     }
     
                 },
@@ -29,6 +30,9 @@ const config = (env, argv) => {
                     loaders: ['style-loader', 'css-loader']
                 }
             ]
+        },
+        node: {
+            fs: 'empty'
         }
     }
 }

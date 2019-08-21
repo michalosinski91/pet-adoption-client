@@ -1,26 +1,42 @@
 import React, { useEffect, useState } from 'react'
+import { gql } from 'apollo-boost'
+import { useQuery } from 'react-apollo'
 
-import Header from './components/Header'
+import HomeMap from './components/HomeMap'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ShelterList from './components/ShelterList'
 
-const App = () => {
-    /*const [shelters, setShelters] = useState([])
+const ALL_SHELTERS = gql`
+        {
+            allShelters {
+                id
+                name
+                address{
+                    street
+                    city
+                    postcode
+                    county
+                }
+                telephone
+                website
+            }
+        }
+    `
 
-    useEffect(() => {
-        shelterService
-            .getAll()
-            .then(initialShelterList => {
-                setShelters(initialShelterList)
-            })
-    }, [])
-*/
+const App = () => {
+
+
+    const { data, loading } = useQuery(ALL_SHELTERS)
+
+    if (loading) {
+        return 'loading....'
+    }
     return (
         <div>
             <Navbar />
-            <Header />
-            <ShelterList />
+            <HomeMap shelters={data.allShelters}/>
+            <ShelterList shelters={data.allShelters} />
             <Footer />
         </div>
     )
