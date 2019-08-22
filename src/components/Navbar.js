@@ -1,11 +1,13 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Navbar = () => {
     return (
-        <div>
-            <button>Test</button>
-            <button>Test</button>
-            <button>Test</button>
+        <div style={{ height: '50px'}}>
+            <Link to='/'>Mapa</Link>
+            <Link to='/schroniska'>Schroniska</Link>
+            <Link to='/login'>Zaloguj Się</Link>
+            <Link to='/omnie'>O Mnie</Link>
         </div>
     )
 }
