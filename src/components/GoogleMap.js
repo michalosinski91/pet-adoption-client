@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 //import MarkerClusterer from '@google/markerclusterer'
 //TODO: add marker clustering
 
@@ -8,12 +7,17 @@ import { Link } from 'react-router-dom'
 const GoogleMap = ({ shelters }) => {
     useEffect(() =>{
         const googleMapScript = document.createElement('script')
+        googleMapScript.id = 'MapScript'
         googleMapScript.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBG1MognAtYUqGeR91CumRmrnPZUoChvgY&language=pl'
         window.document.body.appendChild(googleMapScript)
         googleMapScript.addEventListener('load', () => {
             const googleMap = createGoogleMap()
             const markers = shelters.map(shelter => createMarker(shelter, googleMap))
         })
+        return () => {
+            const map = document.getElementById('MapScript')
+            window.document.body.removeChild(map)
+        }
     }, [])
     
     const googleMapRef = useRef()
