@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { gql } from 'apollo-boost'
 import { useMutation } from 'react-apollo'
 import { Link } from 'react-router-dom'
+import { Header, Grid, Form, Message } from 'semantic-ui-react'
 
 const CREATE_USER = gql`
     mutation createUser($email: String!, $username: String!, $password: String!){
@@ -53,52 +54,49 @@ const RegistrationForm = () => {
 
     const Redirect = () => {
         return(
-            <div>
-                <p>Konto zostalo zalozone</p>
-                <Link to='/login'>Zaloguj sie tutaj</Link>
-            </div>
+            <Message positive>
+                Konto zostalo zalozone
+                <a href='/login'>Zaloguj sie</a>
+            </Message>
         )
     }
 
     return(
-        <div>
-            {!registrationSuccess 
-                ? <div>
-                    <form onSubmit={submit}>
-                        <div>
-                            E-mail: <input 
-                                value={email}
-                                onChange={({ target }) => setEmail(target.value)}
-                            />
-                        </div>
-                        <div>
-                            Nazwa uzytkownika: <input 
-                                value={username}
-                                onChange={({ target }) => setUsername(target.value)}
-                            />
-                        </div>
-                        <div>
-                            Haslo: <input 
-                                value={password}
-                                type='password'
-                                onChange={({ target }) => setPassword(target.value)}
-                            />
-                        </div>
-                        <div>
-                            Powtorz Haslo: <input 
-                                value={repeatPassword}
-                                type='password'
-                                onChange={({ target }) => setRepeatPassword(target.value)}
-                            />
-                        </div>
-                        <button type='submit'>Zaloz konto</button>
-                        {errorMessage}
-                    </form>
-                </div>
-                : <Redirect />
-            }
-        </div>
-        
+        <Grid textAlign='center' style={{ height: '100vh'}} verticalAlign='middle'>
+            <Grid.Column style={{ maxWidth: 450}}>
+                {!registrationSuccess
+                    ? <>
+                        <Header as='h2' textAlign='center'>
+                            Zaloz nowe konto
+                        </Header>
+                        <Form size='large' onSubmit={submit}>
+                            <Form.Field>
+                                <label>Nazwa Uzytkownika</label>
+                                <input value={username} onChange={({ target }) => setUsername(target.value)}/>
+                            </Form.Field>
+                            <Form.Field>
+                                <label>Adres E-mail</label>
+                                <input value={email} onChange={({ target }) => setEmail(target.value)}/>
+                            </Form.Field>
+                            <Form.Field>
+                                <label>Haslo</label>
+                                <input type='password' value={password} onChange={({ target }) => setPassword(target.value)}/>
+                            </Form.Field>
+                            <Form.Field>
+                                <label>Powtorz Haslo</label>
+                                <input type='password' value={repeatPassword} onChange={({ target }) => setRepeatPassword(target.value)}/>
+                            </Form.Field>
+                            <Form.Button size='large' color='blue' fluid type='submit'>Zaloz Konto</Form.Button>
+                        </Form>
+                        <Message>
+                            Masz juz konto? <a href='/login'>Zaloguj sie</a>
+                        </Message>
+                    </>
+                    : <Redirect />
+                }
+                
+            </Grid.Column>
+        </Grid>     
     )
 }
 

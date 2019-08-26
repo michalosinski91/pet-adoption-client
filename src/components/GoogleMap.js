@@ -4,60 +4,35 @@ import React, { useRef, useEffect } from 'react'
 
 
 
-const GoogleMap = ({ shelters }) => {
+const GoogleMap = ({ options, onMount, className }) => {
+
+    const props = { ref: useRef(), className }
+    const createGoogleMap = () => {
+        const map = new window.google.maps.Map(props.ref.current, options)   
+        onMount && onMount(map)
+    }
+        
     useEffect(() =>{
-        const googleMapScript = document.createElement('script')
-        googleMapScript.id = 'MapScript'
-        googleMapScript.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBG1MognAtYUqGeR91CumRmrnPZUoChvgY&language=pl'
-        window.document.body.appendChild(googleMapScript)
-        googleMapScript.addEventListener('load', () => {
-            const googleMap = createGoogleMap()
-            const markers = shelters.map(shelter => createMarker(shelter, googleMap))
-        })
-        return () => {
-            const map = document.getElementById('MapScript')
-            window.document.body.removeChild(map)
-        }
+        if(!window.google) {
+            const googleMapScript = document.createElement('script')
+            googleMapScript.type = 'text/javascript'
+            googleMapScript.id = 'MapScript'
+            googleMapScript.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBG1MognAtYUqGeR91CumRmrnPZUoChvgY&language=pl'
+            window.document.body.appendChild(googleMapScript)
+            googleMapScript.addEventListener('load', createGoogleMap)
+            return () => googleMapScript.removeEventListener('load', createGoogleMap)
+        } else createGoogleMap()
     }, [])
     
-    const googleMapRef = useRef()
-    const createGoogleMap = () => 
-        new window.google.maps.Map(googleMapRef.current, {
-            center: { 
-                lat: 52.1830643, 
-                lng: 18.8839713
-            },
-            zoom: 7,
-            disableDefaultUI: true
-        })   
-
-    const createMarker = (shelter, map) => {
-        const marker = new window.google.maps.Marker({
-            map,
-            position: {
-                lat: shelter.coordinates.latitude,
-                lng: shelter.coordinates.longitude
-            }
-        }) 
-        const contentString = `<a href='/schroniska/${shelter.id}'>${shelter.name}</a>`
-        const info = new window.google.maps.InfoWindow({
-            content: contentString
-        })
-        marker.addListener('click', () => {
-            info.open(map, marker)
-        })
-    }
-
     
     return (
         <div 
-            id="google-map"
-            ref={googleMapRef}
-            style={{ height: '85vh'}}
+            {...props}
+            style={{ height: '100vh'}}
         > 
-            
         </div>
     )
 }
+
 
 export default GoogleMap

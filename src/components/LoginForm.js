@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { withRouter } from 'react-router-dom'
+import { Header, Grid, Form, Message } from 'semantic-ui-react'
 
 
 
@@ -25,24 +26,28 @@ const LoginForm = (props) => {
 
 
     return (
-        <div>
-            <form onSubmit={submit}>
-                <div>
-                    Nazwa Uzytkownika: <input 
-                        value={username}
-                        onChange={({ target }) => setUsername(target.value)}
-                    />
-                </div>
-                <div>
-                    Haslo: <input 
-                        value={password}
-                        type='password'
-                        onChange={({ target }) => setPassword(target.value)}
-                    />
-                </div>
-                <button type='submit'>Zaloguj sie</button>
-            </form>
-        </div>
+        <Grid textAlign='center' style={{ height: '100vh'}} verticalAlign='middle'>
+            <Grid.Column style={{ maxWidth: 450}}>
+                <Header as='h2' textAlign='center'>
+                    Zaloguj sie do konta
+                </Header>
+                <Form size='large' onSubmit={submit}>
+                    <Form.Field>
+                        <label>Nazwa Uzytkownika</label>
+                        <input value={username} onChange={({ target }) => setUsername(target.value)}/>
+                    </Form.Field>
+                    <Form.Field>
+                        <label>Haslo</label>
+                        <input type='password' value={password} onChange={({ target }) => setPassword(target.value)} />
+                    </Form.Field>
+                    <Form.Button size='large' color='blue' fluid type='submit'>Zaloguj Sie</Form.Button>
+                </Form>
+                <Message>
+                    Nie masz jeszcze konta? <a href='/register'>Zarejestruj sie</a>
+                </Message>
+            </Grid.Column>
+        </Grid>
+
     )
 
 }

@@ -1,22 +1,22 @@
 import React from 'react'
-import Shelter from './Shelter'
-import { gql } from 'apollo-boost'
-import { useQuery } from 'react-apollo'
-
-
-
+import ShelterCard from './ShelterCard'
+import { Container, Header, Grid } from 'semantic-ui-react'
 
 
 const ShelterList = ({ shelters }) => {
     return (
-        <div>
-            <h3>We have details of {shelters.length} animal shelters</h3>
-            <h4>Find one near you!</h4>
-            {shelters.map(shelter => 
-                <Shelter key={shelter.id} 
-                shelter={shelter} 
-            />)} 
-        </div>
+        <Container style={{ width: '100%', margin: '50px', height: '100vh'}}>
+            <Header as='h2' textAlign='center'>
+                Mamy dane dotyczące {shelters.length} schronisk.
+            </Header>
+            <Grid columns={3} stackable padded centered>
+                {shelters.map(shelter => <Grid.Column width={5} key={shelter.id}><ShelterCard key={shelter.id} shelter={shelter} /></Grid.Column>)}
+            </Grid>
+        </Container>
+
+
+
+        
     )
 }
 
