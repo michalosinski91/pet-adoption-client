@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
-import { Segment, Item, Image, Button, Grid, Header, Container, Form, Table, Dimmer } from 'semantic-ui-react'
+import { Segment, Item, Button, Grid, Header, Container, Form, Table, Dimmer, Modal, Image } from 'semantic-ui-react'
 
 const Shelter = ({shelter}) => {
     const [message, setMessage] = useState('')
@@ -8,6 +8,8 @@ const Shelter = ({shelter}) => {
     const [email, setEmail] = useState('')
     const [phone, setPhone] = useState('')
     const [messageSent, setMessageSent] = useState(false)
+
+    console.log(shelter.animals)
 
     const handleSubmitMessage = (event) => {
         event.preventDefault()
@@ -27,14 +29,14 @@ const Shelter = ({shelter}) => {
             <Header textAlign='center' as='h2'>
                 {shelter.name}
             </Header>
-            <Grid padded stackable columns={2}> 
+            <Grid centered padded stackable columns={2}> 
                 <Grid.Column width={6}>
                     <Grid.Row>
                         <Segment>
                             <Header as='h3' textAlign='center'>
                                 Dane placówki
                             </Header>
-                            <Table definition>
+                            <Table celled>
                                 <Table.Body>
                                     <Table.Row>
                                         <Table.Cell>
@@ -90,10 +92,28 @@ const Shelter = ({shelter}) => {
                             </Dimmer>
                         </Dimmer.Dimmable>
                     </Grid.Row>
-
                 </Grid.Column>
-                <Grid.Column width={8}>
-                    
+                <Grid.Column width={10}>
+                    <Segment>
+                        <Header as='h3' textAlign='center'>Zwierzeta z tej placówki</Header>
+                        <Item.Group divided>
+                            {shelter.animals.map(animal => <Item key={animal.id}>
+                                <Modal trigger={<Item.Image size='medium' src={`${animal.image}`} />} basic closeIcon><Image src={`${animal.image}`} size='massive' /></Modal>
+                                
+                                <Item.Content>
+                                    <Item.Header>{animal.name}</Item.Header>
+                                    <Item.Meta>{animal.type}, {animal.breed}, {animal.age}</Item.Meta>
+                                    <Item.Content>{animal.description}</Item.Content>
+                                    <Item.Extra>
+                                        <Button floated='left' color='blue'>
+                                            Dowiedz sie wiecej
+                                        </Button>
+                                    </Item.Extra>
+                                </Item.Content>
+                            </Item>)}
+                        </Item.Group>
+                        
+                    </Segment>
                 </Grid.Column>
 
             </Grid>

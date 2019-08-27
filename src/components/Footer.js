@@ -21,12 +21,11 @@ const Footer = () => {
                         <Grid.Column width={6}>
                             <Header inverted as='h4' content='Wykorzystane technologie' />
                             <List link inverted>
-                                <List.Item as={Link} to='https://www.apollographql.com/'>Apollo</List.Item>
-                                <List.Item as={Link} to='https://graphql.org/'>GraphQL</List.Item>
-                                <List.Item as={Link} to='https://www.mongodb.com/cloud/atlas'>MongoDB Atlas</List.Item>
-                                <List.Item as={Link} to='https://reactjs.org/'>React</List.Item>
-                                <List.Item as={Link} to='https://semantic-ui.com/'>SemanticUI</List.Item>
-                                
+                                <List.Item><a href='https://www.apollographql.com/'>Apollo</a></List.Item>
+                                <List.Item><a href='https://graphql.org/'>GraphQL</a></List.Item>
+                                <List.Item><a href='https://www.mongodb.com/cloud/atlas'>MongoDB Atlas</a></List.Item>
+                                <List.Item><a href='https://reactjs.org/'>React</a></List.Item>
+                                <List.Item><a href='https://semantic-ui.com/'>SemanticUI</a></List.Item>
                             </List>
                         </Grid.Column>
                     </Grid.Row>
