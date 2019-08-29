@@ -17,9 +17,8 @@ const LoginForm = (props) => {
         if (result) {
             const token = result.data.login.value
             props.setToken(token)
+            props.setCurrentUser()
             localStorage.setItem('znajdz-schronisko', token)
-            setUsername('')
-            setPassword('')
             props.history.push('/')
         }
     }

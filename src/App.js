@@ -12,6 +12,7 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ShelterList from './components/ShelterList'
 import Shelter from './components/Shelter'
+import User from './components/User'
 import GoogleMap from './components/GoogleMap'
 import LoginForm from './components/LoginForm'
 import RegistrationForm from './components/RegistrationForm'
@@ -52,21 +53,37 @@ const LOGIN = gql`
         }
     }
 `
+const CURRENT_USER = gql`
+    {
+        me {
+            id
+            username
+            email
+            permissions
+            shelter
+        }
+    }
+`
+
+
 
 
 const App = () => {
     const [errorMessage, setErrorMessage] = useState(null)
     const [token, setToken] = useState(null)
+    const [currentUser, setCurrentUser] = useState(null)
 
     const client = useApolloClient()
     
     useEffect(() => {
+        // if a token exists in localStorage, it is passed to state, and handleSetCurrentUser event triggered (refetch of CURRENT_USER query & setting of currentUser)
         const retrievedToken = localStorage.getItem('znajdz-schronisko')
         if (retrievedToken) {
             setToken(retrievedToken)
+            handleSetCurrentUser()
         }
+        
     }, [])
-
 
     const handleError = (error) => {
         setErrorMessage(error.graphQLErrors[0].message)
@@ -74,19 +91,33 @@ const App = () => {
             setErrorMessage(null)
         }, 5000)
     }
+    // Queries ran for Current User & All Shelters - values are renamed to avoid overriding the variables (data, loading, error, etc)
+    // TODO - re-write as custom hook to trigger execution of multiple queries
+    const { data: userData, refetch: userRefetch } = useQuery(CURRENT_USER)
+    const { data: shelterData, loading: shelterLoading } = useQuery(ALL_SHELTERS)
 
-    const { data, loading } = useQuery(ALL_SHELTERS)
 
     const [login] = useMutation(LOGIN, {
-        onError: handleError
+        onError: handleError   
     })
+
     const logout = () => {
         localStorage.clear()
         setToken(null)
+        setCurrentUser(null)
         client.resetStore()
     }
-
-    const shelterById = (id) => data.allShelters.find(shelter => shelter.id == id)
+    // refetches the CURRENT_USER query and passes the user data to state
+    const handleSetCurrentUser = async () => {
+        const { data } = await userRefetch()
+        setCurrentUser({
+            id: data.me.id,
+            username: data.me.username,
+            email: data.me.email,
+            permissions: data.me.permissions
+        })
+    }
+    const shelterById = (id) => shelterData.allShelters.find(shelter => shelter.id == id)
    
     const addMarkers = shelters => map => shelters.map(shelter => {
         const marker = new window.google.maps.Marker({
@@ -117,20 +148,21 @@ const App = () => {
             zoom: 7,
             //disableDefaultUI: true
         },
-        onMount: addMarkers(data.allShelters)
+        onMount: addMarkers(shelterData.allShelters)
     }
 
-    if (loading) {
+    if (shelterLoading) {
         return 'Ladujemy dane'
     }
     return (
         <Container fluid>
             <Router>
-                <Navbar token={token} logout={logout}/>
+                <Navbar token={token} logout={logout} currentUser={currentUser}/>
                 <Route exact path='/' render={() => <GoogleMap {...mapProps}/>} />
-                <Route exact path='/schroniska' render={() => <ShelterList shelters={data.allShelters} /> } />
+                <Route exact path='/schroniska' render={() => <ShelterList shelters={shelterData.allShelters} /> } />
                 <Route exact path='/schroniska/:id' render={({ match }) => <Shelter shelter={shelterById(match.params.id)} />} />
-                <Route exact path='/login' render={() => <LoginForm login={login} setToken={(token) => setToken(token)} />} />
+                <Route exact path='/uzytkownik/:id' render={({ match }) => <User userId={match.params.id} currentUser={currentUser} />}  /> 
+                <Route exact path='/login' render={() => <LoginForm login={login} setToken={(token) => setToken(token)} setCurrentUser={handleSetCurrentUser} />} />
                 <Route exact path='/register' render={() => <RegistrationForm />} />
                 <Footer />
             </Router>

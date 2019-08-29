@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Menu } from 'semantic-ui-react'
 
-const Navbar = ({ token, logout }) => {
+const Navbar = ({ token, logout, currentUser }) => {
     const [activeItem, setActiveItem] = useState('')
 
     
@@ -37,15 +37,25 @@ const Navbar = ({ token, logout }) => {
             </Menu.Item>
 
             <Menu.Menu position="right">
-                {token 
-                    ? <Menu.Item
-                        name='logout'
-                        onClick={() => logout()}
-                        as={Link}
-                        to='/'
-                    >
-                        Wyloguj sie
-                    </Menu.Item>
+                {token && currentUser
+                    ? <>
+                        <Menu.Item
+                            name='user'
+                            onClick={() => setActiveItem('user')}
+                            as={Link}
+                            to={`/uzytkownik/${currentUser.id}`}
+                        >
+                            Konto
+                        </Menu.Item>
+                        <Menu.Item
+                            name='logout'
+                            onClick={() => logout()}
+                            as={Link}
+                            to='/'
+                        >
+                            Wyloguj sie
+                        </Menu.Item>
+                    </>
                     : <>
                         <Menu.Item
                             name='login'
@@ -72,18 +82,3 @@ const Navbar = ({ token, logout }) => {
 }
 
 export default Navbar
-/*
-<div style={{ height: '50px'}}>
-<Link to='/'>Mapa</Link>
-<Link to='/schroniska'>Schroniska</Link>
-<Link to='/omnie'>O Mnie</Link>
-{!token 
-? <div>
-    <Link to='/login'>Zaloguj Się</Link> 
-    <Link to='/register'>Zaloz konto</Link>
-</div>
-: <Link to='/' onClick={() => logout()}>Wyloguj Sie</Link>
-}
-
-</div>
-*/
