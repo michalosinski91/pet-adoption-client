@@ -4,6 +4,7 @@ import { Container, Header, Grid } from 'semantic-ui-react'
 
 
 const ShelterList = ({ shelters }) => {
+    console.log('shelters', shelters)
     return (
         <Container style={{ width: '100%', margin: '50px', height: '100vh'}}>
             <Header as='h2' textAlign='center'>

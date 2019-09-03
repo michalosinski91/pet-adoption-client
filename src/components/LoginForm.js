@@ -7,9 +7,11 @@ import { Header, Grid, Form, Message } from 'semantic-ui-react'
 const LoginForm = (props) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [loadingButton, setLoadingButton] = useState(false)
 
     const submit = async (event) => {
         event.preventDefault()
+        setLoadingButton(true)
         const result = await props.login({
             variables: { username, password}
         })
@@ -39,7 +41,7 @@ const LoginForm = (props) => {
                         <label>Haslo</label>
                         <input type='password' value={password} onChange={({ target }) => setPassword(target.value)} />
                     </Form.Field>
-                    <Form.Button size='large' color='blue' fluid type='submit'>Zaloguj Sie</Form.Button>
+                    <Form.Button size='large' color='blue' fluid type='submit' loading={loadingButton}>Zaloguj Sie</Form.Button>
                 </Form>
                 <Message>
                     Nie masz jeszcze konta? <a href='/register'>Zarejestruj sie</a>

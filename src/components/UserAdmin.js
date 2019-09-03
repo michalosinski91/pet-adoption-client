@@ -15,7 +15,7 @@ const FIND_USER = gql`
     }
 `
 
-const User = ({ userId, currentUser }) => {
+const UserAdmin = ({ userId, currentUser }) => {
     const [newEmail, setNewEmail] = useState('')
     const [oldPassword, setOldPassword] = useState('')
     const [newPassword, setNewPassword] = useState('')
@@ -26,7 +26,6 @@ const User = ({ userId, currentUser }) => {
     const [activePasswordChange, setActivePasswordChange] = useState(false)
     const [activeDeleteAccount ,setActiveDeleteAccount] = useState(false)
 
-
     const  {data, loading} = useQuery(FIND_USER, {
         variables: {
             id: userId
@@ -36,14 +35,12 @@ const User = ({ userId, currentUser }) => {
     //TODO: LINK FUNCTIONALITY WITH DB - need to write resolvers
     const handleEmailChange = (event) => {
         event.preventDefault()
-        console.log('email change submitted')
         setNewEmail('')
         setActiveEmailChange(false)
     }
 
     const handlePasswordChange = async (event) => {
         event.preventDefault()
-        console.log('password change submitted')
         setOldPassword('')
         setNewPassword('')
         setRepeatNewPassword('')
@@ -52,7 +49,6 @@ const User = ({ userId, currentUser }) => {
 
     const handleDeleteAccount = (event) => {
         event.preventDefault()
-        console.log('account delete submitted')
     }
 
     if (loading) {
@@ -160,4 +156,4 @@ const User = ({ userId, currentUser }) => {
     )
 }
 
-export default User
+export default UserAdmin

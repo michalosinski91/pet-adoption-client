@@ -1,19 +1,18 @@
 import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
-import { Segment, Item, Button, Grid, Header, Container, Form, Table, Dimmer, Modal, Image } from 'semantic-ui-react'
+import { Segment, Item, Button, Grid, Header, Container, Form, Table, Dimmer, Modal, Image, Message } from 'semantic-ui-react'
 
-const Shelter = ({shelter}) => {
+const Shelter = ({ shelter }) => {
     const [message, setMessage] = useState('')
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [phone, setPhone] = useState('')
     const [messageSent, setMessageSent] = useState(false)
-
-    console.log(shelter.animals)
+    const [messageLoading, setMessageLoading] = useState(false)
 
     const handleSubmitMessage = (event) => {
         event.preventDefault()
-
+        setMessageLoading(true)
         setMessageSent(true)
         setTimeout(() => {
             setMessageSent(false)
@@ -72,7 +71,7 @@ const Shelter = ({shelter}) => {
                                     </Table.Row>
                                 </Table.Body>
                             </Table>
-                            <Button size='large' color='blue' fluid>Wspomoz placówke finansowo</Button>
+                            <Button size='large' color='blue' fluid disabled>Wspomoz placówke finansowo</Button>
                         </Segment>
                     </Grid.Row>
                     <Grid.Row>
@@ -85,10 +84,10 @@ const Shelter = ({shelter}) => {
                                 <Form.Input required label='Email' value={email} onChange={({ target}) => setEmail(target.value)} />
                                 <Form.Input label='Telefon' value={phone} onChange={({ target}) => setPhone(target.value)} />
                                 <Form.TextArea required label='Wiadomosc' value={message} onChange={({ target }) => setMessage(target.value)} />
-                                <Form.Button size='large' color='blue' fluid type='submit'>Wyslij wiadomosc</Form.Button>
+                                <Form.Button size='large' color='blue' fluid type='submit' loading={messageLoading} disabled>Wyslij wiadomosc</Form.Button>
                             </Form>
-                            <Dimmer active={messageSent} onClick={() => setMessageSent(false)}>
-                                <Header as='h2' inverted>Message Sent</Header>
+                            <Dimmer active onClick={() => setMessageSent(false)}>
+                                <Header as='h2' inverted>Coming Soon...</Header>
                             </Dimmer>
                         </Dimmer.Dimmable>
                     </Grid.Row>
@@ -96,22 +95,29 @@ const Shelter = ({shelter}) => {
                 <Grid.Column width={10}>
                     <Segment>
                         <Header as='h3' textAlign='center'>Zwierzeta z tej placówki</Header>
-                        <Item.Group divided>
-                            {shelter.animals.map(animal => <Item key={animal.id}>
-                                <Modal trigger={<Item.Image size='medium' src={`${animal.image}`} />} basic closeIcon><Image src={`${animal.image}`} size='massive' /></Modal>
-                                
-                                <Item.Content>
-                                    <Item.Header>{animal.name}</Item.Header>
-                                    <Item.Meta>{animal.type}, {animal.breed}, {animal.age}</Item.Meta>
-                                    <Item.Content>{animal.description}</Item.Content>
-                                    <Item.Extra>
-                                        <Button floated='left' color='blue'>
-                                            Dowiedz sie wiecej
-                                        </Button>
-                                    </Item.Extra>
-                                </Item.Content>
-                            </Item>)}
-                        </Item.Group>
+                        {shelter.animals.length > 0 
+                            ? <Item.Group divided>
+                                {shelter.animals.map(animal => <Item key={animal.id}>
+                                    <Modal trigger={<Item.Image size='medium' src={`${animal.image}`} />} basic closeIcon><Image src={`${animal.image}`} size='massive' /></Modal>
+                                    <Item.Content>
+                                        <Item.Header>{animal.name}</Item.Header>
+                                        <Item.Meta>{animal.type}, {animal.breed}, {animal.age}</Item.Meta>
+                                        <Item.Content>{animal.description}</Item.Content>
+                                        <Item.Extra>
+                                            <Button floated='left' color='blue' disabled>
+                                                Dowiedz sie wiecej
+                                            </Button>
+                                        </Item.Extra>
+                                    </Item.Content>
+                                </Item>)}
+                            </Item.Group>
+                            : <Message size='large'>
+                                <Message.Header>
+                                    Obecnie brak informacji o zwierzetach z tej placówki
+                                </Message.Header>
+                            </Message>
+                        }
+                        
                         
                     </Segment>
                 </Grid.Column>

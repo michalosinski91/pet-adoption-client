@@ -27,13 +27,16 @@ const RegistrationForm = () => {
     const [repeatPassword, setRepeatPassword] = useState('')
     const [registrationSuccess, setRegistrationSuccess] = useState(false)
     const [errorMessage, setErrorMessage] = useState(null)
+    const [loadingButton, setLoadingButton] = useState(false)
  
     const [createUser] = useMutation(CREATE_USER)
 
     const submit = async (event) => {
         event.preventDefault()
+        setLoadingButton(true)
         if (password !== repeatPassword) {
             setErrorMessage('Hasla sie nie zgadzaja')
+            setLoadingButton(false)
             setTimeout(() => {
                 setErrorMessage(null)
             }, 5000)
@@ -86,7 +89,7 @@ const RegistrationForm = () => {
                                 <label>Powtorz Haslo</label>
                                 <input type='password' value={repeatPassword} onChange={({ target }) => setRepeatPassword(target.value)}/>
                             </Form.Field>
-                            <Form.Button size='large' color='blue' fluid type='submit'>Zaloz Konto</Form.Button>
+                            <Form.Button size='large' color='blue' fluid type='submit' loading={loadingButton}>Zaloz Konto</Form.Button>
                         </Form>
                         <Message>
                             Masz juz konto? <a href='/login'>Zaloguj sie</a>

@@ -6,13 +6,14 @@ import {
 import { gql } from 'apollo-boost'
 import { useQuery, useMutation, useApolloClient } from 'react-apollo'
 
-import { Container } from 'semantic-ui-react'
+import { Container, Loader } from 'semantic-ui-react'
 
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ShelterList from './components/ShelterList'
 import Shelter from './components/Shelter'
-import User from './components/User'
+import ShelterAdmin from './components/ShelterAdmin'
+import UserAdmin from './components/UserAdmin'
 import GoogleMap from './components/GoogleMap'
 import LoginForm from './components/LoginForm'
 import RegistrationForm from './components/RegistrationForm'
@@ -43,6 +44,9 @@ const ALL_SHELTERS = gql`
                     description
                     image
                 }
+                administrator{
+                    id
+                }
             }
         }
 `
@@ -64,7 +68,6 @@ const CURRENT_USER = gql`
         }
     }
 `
-
 
 
 
@@ -93,10 +96,11 @@ const App = () => {
     }
     // Queries ran for Current User & All Shelters - values are renamed to avoid overriding the variables (data, loading, error, etc)
     // TODO - re-write as custom hook to trigger execution of multiple queries
-    const { data: userData, refetch: userRefetch } = useQuery(CURRENT_USER)
-    const { data: shelterData, loading: shelterLoading } = useQuery(ALL_SHELTERS)
-
-
+    const { data: shelterData, loading: shelterLoading, error: shelterError, refetch: shelterRefetch} = useQuery(ALL_SHELTERS)
+    const { data: userData, refetch: userRefetch, error: userError } = useQuery(CURRENT_USER)
+    if (userError) {
+        console.log(userError)
+    }
     const [login] = useMutation(LOGIN, {
         onError: handleError   
     })
@@ -114,7 +118,8 @@ const App = () => {
             id: data.me.id,
             username: data.me.username,
             email: data.me.email,
-            permissions: data.me.permissions
+            permissions: data.me.permissions,
+            shelter: data.me.shelter
         })
     }
     const shelterById = (id) => shelterData.allShelters.find(shelter => shelter.id == id)
@@ -152,16 +157,26 @@ const App = () => {
     }
 
     if (shelterLoading) {
-        return 'Ladujemy dane'
+        return(
+            <Loader style={{ height: '100vh', marginTop: '300px'}} active inline='centered' />
+        )
     }
+
+    if (shelterError) {
+        return (
+            <p>Error</p>
+        )
+    }
+
     return (
         <Container fluid>
             <Router>
                 <Navbar token={token} logout={logout} currentUser={currentUser}/>
                 <Route exact path='/' render={() => <GoogleMap {...mapProps}/>} />
                 <Route exact path='/schroniska' render={() => <ShelterList shelters={shelterData.allShelters} /> } />
-                <Route exact path='/schroniska/:id' render={({ match }) => <Shelter shelter={shelterById(match.params.id)} />} />
-                <Route exact path='/uzytkownik/:id' render={({ match }) => <User userId={match.params.id} currentUser={currentUser} />}  /> 
+                <Route exact path='/admin/schroniska/:id' render={({ match }) => <ShelterAdmin shelter={shelterById(match.params.id)} currentUser={currentUser} shelterRefetch={shelterRefetch} />} />
+                <Route exact path='/schroniska/:id' render={({ match }) => <Shelter shelter={shelterById(match.params.id)}/>} />
+                <Route exact path='/uzytkownik/:id' render={({ match }) => <UserAdmin userId={match.params.id} currentUser={currentUser} />}  /> 
                 <Route exact path='/login' render={() => <LoginForm login={login} setToken={(token) => setToken(token)} setCurrentUser={handleSetCurrentUser} />} />
                 <Route exact path='/register' render={() => <RegistrationForm />} />
                 <Footer />

@@ -5,7 +5,6 @@ import { Menu } from 'semantic-ui-react'
 const Navbar = ({ token, logout, currentUser }) => {
     const [activeItem, setActiveItem] = useState('')
 
-    
     return (
         <Menu style={{ height: 50, margin: 0}}>
             <Menu.Item
@@ -26,26 +25,28 @@ const Navbar = ({ token, logout, currentUser }) => {
             >
                 Schroniska
             </Menu.Item>
-            <Menu.Item
-                name='omnie'
-                active={activeItem === 'omnie'}
-                onClick={() => setActiveItem('omnie')}
-                as={Link}
-                to='/omnie'
-            >
-                O Mnie
-            </Menu.Item>
 
             <Menu.Menu position="right">
                 {token && currentUser
                     ? <>
+                        {currentUser.shelter
+                            ? <Menu.Item
+                            name='shelter'
+                            active={activeItem === 'shelter'}
+                            onClick={() => setActiveItem('shelter')}
+                            as={Link}
+                            to={`/admin/schroniska/${currentUser.shelter}`}
+                            >Konto placówki</Menu.Item>
+                            : null
+                        }
                         <Menu.Item
                             name='user'
+                            active={activeItem === 'user'}
                             onClick={() => setActiveItem('user')}
                             as={Link}
                             to={`/uzytkownik/${currentUser.id}`}
                         >
-                            Konto
+                            Konto Uzytkownika
                         </Menu.Item>
                         <Menu.Item
                             name='logout'
@@ -59,6 +60,7 @@ const Navbar = ({ token, logout, currentUser }) => {
                     : <>
                         <Menu.Item
                             name='login'
+                            active={activeItem === 'login'}
                             onClick={() => setActiveItem('login')}
                             as={Link}
                             to='/login'
@@ -67,6 +69,7 @@ const Navbar = ({ token, logout, currentUser }) => {
                         </Menu.Item>
                         <Menu.Item
                             name='rejstracja'
+                            active={activeItem === 'rejstracja'}
                             onClick={() => setActiveItem('rejstracja')}
                             as={Link}
                             to='/register'
