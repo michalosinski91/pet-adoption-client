@@ -28,7 +28,7 @@ const GoogleMap = ({ options, onMount, className }) => {
     return (
         <div 
             {...props}
-            style={{ height: '100vh'}}
+            style={{ height: '95vh'}}
         > 
         </div>
     )

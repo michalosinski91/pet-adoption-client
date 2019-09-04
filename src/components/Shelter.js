@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import { Link } from 'react-router-dom'
 import { Segment, Item, Button, Grid, Header, Container, Form, Table, Dimmer, Modal, Image, Message } from 'semantic-ui-react'
 
 const Shelter = ({ shelter }) => {
@@ -22,14 +21,14 @@ const Shelter = ({ shelter }) => {
         setPhone('')
         setMessage('')
     }
-
+    
     return(
         <Container fluid style={{ width: '100%', margin: '50px'}}>
             <Header textAlign='center' as='h2'>
                 {shelter.name}
             </Header>
-            <Grid centered padded stackable columns={2}> 
-                <Grid.Column width={6}>
+            <Grid centered padded relaxed stackable columns={2}> 
+                <Grid.Column width={6} style={{ minWidth: '500px'}}>
                     <Grid.Row>
                         <Segment>
                             <Header as='h3' textAlign='center'>
@@ -66,7 +65,10 @@ const Shelter = ({ shelter }) => {
                                             Strona internetowa
                                         </Table.Cell>
                                         <Table.Cell>
-                                            <a href={`${shelter.website}`} target='blank'>{shelter.website}</a>
+                                            {shelter.website === "brak" 
+                                                ? shelter.website 
+                                                : <a href={`http://${shelter.website}`} target='blank'>{shelter.website}</a>
+                                            }
                                         </Table.Cell>
                                     </Table.Row>
                                 </Table.Body>
@@ -75,7 +77,7 @@ const Shelter = ({ shelter }) => {
                         </Segment>
                     </Grid.Row>
                     <Grid.Row>
-                        <Dimmer.Dimmable as={Segment} dimmed={messageSent}>
+                        <Dimmer.Dimmable as={Segment} dimmed={messageSent} style={{ minWidth: '450px'}}>
                             <Header as='h3' textAlign='center'>
                                 <p>Masz pytanie do placówki?</p>
                             </Header>
@@ -92,7 +94,7 @@ const Shelter = ({ shelter }) => {
                         </Dimmer.Dimmable>
                     </Grid.Row>
                 </Grid.Column>
-                <Grid.Column width={10}>
+                <Grid.Column width={8} style={{ minWidth: '600px'}}>
                     <Segment>
                         <Header as='h3' textAlign='center'>Zwierzeta z tej placówki</Header>
                         {shelter.animals.length > 0 
@@ -103,11 +105,6 @@ const Shelter = ({ shelter }) => {
                                         <Item.Header>{animal.name}</Item.Header>
                                         <Item.Meta>{animal.type}, {animal.breed}, {animal.age}</Item.Meta>
                                         <Item.Content>{animal.description}</Item.Content>
-                                        <Item.Extra>
-                                            <Button floated='left' color='blue' disabled>
-                                                Dowiedz sie wiecej
-                                            </Button>
-                                        </Item.Extra>
                                     </Item.Content>
                                 </Item>)}
                             </Item.Group>

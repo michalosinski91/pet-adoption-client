@@ -6,7 +6,7 @@ const Navbar = ({ token, logout, currentUser }) => {
     const [activeItem, setActiveItem] = useState('')
 
     return (
-        <Menu style={{ height: 50, margin: 0}}>
+        <Menu style={{ margin: 0}} stackable>
             <Menu.Item
                 name='mapa'
                 active={activeItem === 'mapa'}

@@ -8,6 +8,7 @@ import { useQuery, useMutation, useApolloClient } from 'react-apollo'
 
 import { Container, Loader } from 'semantic-ui-react'
 
+import ScrollToTop from './hocs/ScrollToTop'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ShelterList from './components/ShelterList'
@@ -17,6 +18,7 @@ import UserAdmin from './components/UserAdmin'
 import GoogleMap from './components/GoogleMap'
 import LoginForm from './components/LoginForm'
 import RegistrationForm from './components/RegistrationForm'
+import initialData from '../initialData.json'
 
 const ALL_SHELTERS = gql`
         {
@@ -69,6 +71,25 @@ const CURRENT_USER = gql`
     }
 `
 
+const ADD_SHELTER = gql`
+    mutation addShelter($name: String!, $street: String!, $city: String!, $postcode: String!, $county: String!, $telephone: String, $website: String, $longitude: Float, $latitude: Float ){
+        addShelter(name: $name, street: $street, city: $city, postcode: $postcode, county: $county, telephone: $telephone, website: $website, longitude: $longitude, latitude: $latitude){
+            id
+            name
+            address{
+                street
+                city
+            }
+            website
+            telephone
+            coordinates{
+                latitude
+                longitude
+            }
+        }
+    }
+`
+
 
 
 const App = () => {
@@ -77,13 +98,14 @@ const App = () => {
     const [currentUser, setCurrentUser] = useState(null)
 
     const client = useApolloClient()
-    
+
     useEffect(() => {
         // if a token exists in localStorage, it is passed to state, and handleSetCurrentUser event triggered (refetch of CURRENT_USER query & setting of currentUser)
         const retrievedToken = localStorage.getItem('znajdz-schronisko')
         if (retrievedToken) {
             setToken(retrievedToken)
             handleSetCurrentUser()
+            
         }
         
     }, [])
@@ -104,6 +126,8 @@ const App = () => {
     const [login] = useMutation(LOGIN, {
         onError: handleError   
     })
+
+    const [addShelter] = useMutation(ADD_SHELTER)
 
     const logout = () => {
         localStorage.clear()
@@ -171,15 +195,17 @@ const App = () => {
     return (
         <Container fluid>
             <Router>
-                <Navbar token={token} logout={logout} currentUser={currentUser}/>
-                <Route exact path='/' render={() => <GoogleMap {...mapProps}/>} />
-                <Route exact path='/schroniska' render={() => <ShelterList shelters={shelterData.allShelters} /> } />
-                <Route exact path='/admin/schroniska/:id' render={({ match }) => <ShelterAdmin shelter={shelterById(match.params.id)} currentUser={currentUser} shelterRefetch={shelterRefetch} />} />
-                <Route exact path='/schroniska/:id' render={({ match }) => <Shelter shelter={shelterById(match.params.id)}/>} />
-                <Route exact path='/uzytkownik/:id' render={({ match }) => <UserAdmin userId={match.params.id} currentUser={currentUser} />}  /> 
-                <Route exact path='/login' render={() => <LoginForm login={login} setToken={(token) => setToken(token)} setCurrentUser={handleSetCurrentUser} />} />
-                <Route exact path='/register' render={() => <RegistrationForm />} />
-                <Footer />
+                <ScrollToTop>
+                    <Navbar token={token} logout={logout} currentUser={currentUser}/>
+                    <Route exact path='/' render={() => <GoogleMap {...mapProps}/>} />
+                    <Route exact path='/schroniska' render={() => <ShelterList shelters={shelterData.allShelters} /> } />
+                    <Route exact path='/admin/schroniska/:id' render={({ match }) => <ShelterAdmin shelter={shelterById(match.params.id)} currentUser={currentUser} shelterRefetch={shelterRefetch} />} />
+                    <Route exact path='/schroniska/:id' render={({ match }) => <Shelter shelter={shelterById(match.params.id)}/>} />
+                    <Route exact path='/uzytkownik/:id' render={({ match }) => <UserAdmin userId={match.params.id} currentUser={currentUser} />}  /> 
+                    <Route exact path='/login' render={() => <LoginForm login={login} setToken={(token) => setToken(token)} setCurrentUser={handleSetCurrentUser} />} />
+                    <Route exact path='/register' render={() => <RegistrationForm />} />
+                    <Footer />
+                </ScrollToTop>
             </Router>
         </Container>
     )

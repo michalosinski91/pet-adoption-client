@@ -4,20 +4,15 @@ import { Container, Header, Grid } from 'semantic-ui-react'
 
 
 const ShelterList = ({ shelters }) => {
-    console.log('shelters', shelters)
     return (
-        <Container style={{ width: '100%', margin: '50px', height: '100vh'}}>
+        <Container style={{ width: '100%', margin: '50px' }}>
             <Header as='h2' textAlign='center'>
                 Mamy dane dotyczące {shelters.length} schronisk.
             </Header>
             <Grid columns={3} stackable padded centered>
-                {shelters.map(shelter => <Grid.Column width={5} key={shelter.id}><ShelterCard key={shelter.id} shelter={shelter} /></Grid.Column>)}
+                {shelters.map(shelter => <Grid.Column style={{ minWidth: '300px'}} width={5} key={shelter.id}><ShelterCard key={shelter.id} shelter={shelter} /></Grid.Column>)}
             </Grid>
-        </Container>
-
-
-
-        
+        </Container> 
     )
 }
 
