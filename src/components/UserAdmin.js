@@ -9,7 +9,7 @@ const FIND_USER = gql`
             id
             username
             email
-            permissions
+            permission
             shelter
         }
     }
@@ -24,7 +24,7 @@ const UserAdmin = ({ userId, currentUser }) => {
     const [password, setPassword] = useState('')
     const [activeEmailChange, setActiveEmailChange] = useState(false)
     const [activePasswordChange, setActivePasswordChange] = useState(false)
-    const [activeDeleteAccount ,setActiveDeleteAccount] = useState(false)
+    const [activeDeleteAccount, setActiveDeleteAccount] = useState(false)
 
     const  {data, loading} = useQuery(FIND_USER, {
         variables: {
@@ -58,7 +58,7 @@ const UserAdmin = ({ userId, currentUser }) => {
     }
     if (data.findUser && data.findUser.id !== currentUser.id) {
         return(
-            <Container style={{ margin: '50px', height: '100vh'}}>
+            <Container style={{ margin: '50px', minHeight: '100vh'}}>
                 <Header as='h2' textAlign='center'>Profil uzytkownika {data.findUser.username}</Header>
                 <Message 
                     warning 
@@ -71,7 +71,7 @@ const UserAdmin = ({ userId, currentUser }) => {
     }
 
     return (
-        <Container style={{ margin: '50px'}}>
+        <Container style={{ margin: '50px', minHeight: '100vh'}}>
             <Header as='h2' textAlign='center'>Profil uzytkownika {data.findUser.username}</Header>
             <Item.Group divided style={{ marginTop: 100}}>
                 <Item>

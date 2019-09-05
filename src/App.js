@@ -18,7 +18,7 @@ import UserAdmin from './components/UserAdmin'
 import GoogleMap from './components/GoogleMap'
 import LoginForm from './components/LoginForm'
 import RegistrationForm from './components/RegistrationForm'
-import initialData from '../initialData.json'
+import AdminPanel from './components/AdminPanel'
 
 const ALL_SHELTERS = gql`
         {
@@ -65,7 +65,7 @@ const CURRENT_USER = gql`
             id
             username
             email
-            permissions
+            permission
             shelter
         }
     }
@@ -120,9 +120,7 @@ const App = () => {
     // TODO - re-write as custom hook to trigger execution of multiple queries
     const { data: shelterData, loading: shelterLoading, error: shelterError, refetch: shelterRefetch} = useQuery(ALL_SHELTERS)
     const { data: userData, refetch: userRefetch, error: userError } = useQuery(CURRENT_USER)
-    if (userError) {
-        console.log(userError)
-    }
+
     const [login] = useMutation(LOGIN, {
         onError: handleError   
     })
@@ -142,7 +140,7 @@ const App = () => {
             id: data.me.id,
             username: data.me.username,
             email: data.me.email,
-            permissions: data.me.permissions,
+            permission: data.me.permission,
             shelter: data.me.shelter
         })
     }
@@ -185,8 +183,16 @@ const App = () => {
             <Loader style={{ height: '100vh', marginTop: '300px'}} active inline='centered' />
         )
     }
+    
+    if (userError) {
+        console.log(userError)
+        return (
+            <p>Error</p>
+        )
+    }
 
-    if (shelterError) {
+    if (shelterError ) {
+        console.log(shelterError)
         return (
             <p>Error</p>
         )
@@ -204,6 +210,7 @@ const App = () => {
                     <Route exact path='/uzytkownik/:id' render={({ match }) => <UserAdmin userId={match.params.id} currentUser={currentUser} />}  /> 
                     <Route exact path='/login' render={() => <LoginForm login={login} setToken={(token) => setToken(token)} setCurrentUser={handleSetCurrentUser} />} />
                     <Route exact path='/register' render={() => <RegistrationForm />} />
+                    <Route exact path='/adminpanel' render={() => <AdminPanel currentUser={currentUser} shelters={shelterData.allShelters} />} />
                     <Footer />
                 </ScrollToTop>
             </Router>

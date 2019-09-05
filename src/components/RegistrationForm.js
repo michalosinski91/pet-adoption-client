@@ -65,7 +65,7 @@ const RegistrationForm = () => {
     }
 
     return(
-        <Grid textAlign='center' style={{ height: '100vh'}} verticalAlign='middle'>
+        <Grid textAlign='center' style={{ minHeight: '100vh'}} verticalAlign='middle'>
             <Grid.Column style={{ maxWidth: 450}}>
                 {!registrationSuccess
                     ? <>
@@ -92,7 +92,7 @@ const RegistrationForm = () => {
                             <Form.Button size='large' color='blue' fluid type='submit' loading={loadingButton}>Zaloz Konto</Form.Button>
                         </Form>
                         <Message>
-                            Masz juz konto? <a href='/login'>Zaloguj sie</a>
+                            Masz juz konto? <a href='/login'> Zaloguj sie</a>
                         </Message>
                     </>
                     : <Redirect />

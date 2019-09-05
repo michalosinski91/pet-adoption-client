@@ -8,6 +8,10 @@ const ShelterMessages = ({ showPanel, shelter }) => {
             <Item>
                 <Item.Content>
                     <Item.Header>Wiadomosci</Item.Header>
+                    {shelter.messages 
+                        ? <p>Messages</p>
+                        : <p>Brak wiadomosci</p>
+                    }
                     
                 </Item.Content>
             </Item>

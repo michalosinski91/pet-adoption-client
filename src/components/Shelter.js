@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Segment, Item, Button, Grid, Header, Container, Form, Table, Dimmer, Modal, Image, Message } from 'semantic-ui-react'
+import { Segment, Item, Button, Grid, Header, Container, Form, Table, Dimmer, Modal, Image, Message, Popup } from 'semantic-ui-react'
 
 const Shelter = ({ shelter }) => {
     const [message, setMessage] = useState('')
@@ -23,7 +23,7 @@ const Shelter = ({ shelter }) => {
     }
     
     return(
-        <Container fluid style={{ width: '100%', margin: '50px'}}>
+        <Container fluid style={{ width: '100%', margin: '50px', minHeight: '100vh'}}>
             <Header textAlign='center' as='h2'>
                 {shelter.name}
             </Header>
@@ -38,7 +38,7 @@ const Shelter = ({ shelter }) => {
                                 <Table.Body>
                                     <Table.Row>
                                         <Table.Cell>
-                                            Adress
+                                            Adres
                                         </Table.Cell>
                                         <Table.Cell>
                                             {`${shelter.address.street}, ${shelter.address.postcode} ${shelter.address.city}`}
@@ -73,7 +73,13 @@ const Shelter = ({ shelter }) => {
                                     </Table.Row>
                                 </Table.Body>
                             </Table>
-                            <Button size='large' color='blue' fluid disabled>Wspomoz placówke finansowo</Button>
+                            <Popup 
+                                content='Usuluga obecnie niedostepna' 
+                                hideOnScroll 
+                                position='top center'
+                                size='large'
+                                trigger={<Button size='large' color='blue' fluid>Wspomoz placówke finansowo</Button>} 
+                            />
                         </Segment>
                     </Grid.Row>
                     <Grid.Row>

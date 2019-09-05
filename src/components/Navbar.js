@@ -39,6 +39,16 @@ const Navbar = ({ token, logout, currentUser }) => {
                             >Konto placówki</Menu.Item>
                             : null
                         }
+                        {currentUser.permission === 'ADMIN'
+                            ? <Menu.Item
+                            name='admin'
+                            active={activeItem === 'admin'}
+                            onClick={() => setActiveItem('admin')}
+                            as={Link}
+                            to={'/adminpanel'}
+                            >Panel administracyjny</Menu.Item>
+                            : null
+                        }
                         <Menu.Item
                             name='user'
                             active={activeItem === 'user'}

@@ -2,8 +2,6 @@ import React, { useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Header, Grid, Form, Message } from 'semantic-ui-react'
 
-
-
 const LoginForm = (props) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -13,7 +11,7 @@ const LoginForm = (props) => {
         event.preventDefault()
         setLoadingButton(true)
         const result = await props.login({
-            variables: { username, password}
+            variables: { username, password }
         })
 
         if (result) {
@@ -25,9 +23,8 @@ const LoginForm = (props) => {
         }
     }
 
-
     return (
-        <Grid textAlign='center' style={{ height: '100vh'}} verticalAlign='middle'>
+        <Grid textAlign='center' style={{ minHeight: '100vh'}} verticalAlign='middle'>
             <Grid.Column style={{ maxWidth: 450}}>
                 <Header as='h2' textAlign='center'>
                     Zaloguj sie do konta
