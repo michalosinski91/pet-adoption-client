@@ -1,11 +1,26 @@
 import React, { useState } from 'react'
 import { Header, Form, Container, Message, Loader, Item, Button } from 'semantic-ui-react'
-import { useQuery } from 'react-apollo';
+import { useQuery, useMutation } from 'react-apollo';
 import { gql } from 'apollo-boost'
 
 const FIND_USER = gql`
     query findUser($id: String!){
         findUser(id: $id) {
+            id
+            username
+            email
+            permission
+            shelter
+        }
+    }
+`
+
+const UPDATE_EMAIL = gql`
+    mutation updateUserEmail($id: String! $email: String!){
+        updateUserEmail(
+            id: $id
+            email: $email
+        ) {
             id
             username
             email
@@ -26,17 +41,33 @@ const UserAdmin = ({ userId, currentUser }) => {
     const [activePasswordChange, setActivePasswordChange] = useState(false)
     const [activeDeleteAccount, setActiveDeleteAccount] = useState(false)
 
-    const  {data, loading} = useQuery(FIND_USER, {
+    
+    
+    const  {data, loading, refetch} = useQuery(FIND_USER, {
         variables: {
             id: userId
         }
     })
 
+    const [updateUserEmail, { loading: EmailUpdateLoading }] = useMutation(UPDATE_EMAIL)
+
     //TODO: LINK FUNCTIONALITY WITH DB - need to write resolvers
-    const handleEmailChange = (event) => {
+    const handleEmailChange = async (event) => {
         event.preventDefault()
-        setNewEmail('')
-        setActiveEmailChange(false)
+        try {
+            const result = await updateUserEmail({
+                variables: {
+                    id: data.findUser.id,
+                    email: newEmail
+                }
+            })
+            refetch()
+            setNewEmail('')
+            setActiveEmailChange(false)
+        } catch (error) {
+            console.log(error)
+        }
+
     }
 
     const handlePasswordChange = async (event) => {
@@ -78,14 +109,14 @@ const UserAdmin = ({ userId, currentUser }) => {
                     <Item.Content>
                         <Item.Header>Nazwa uzytkownika</Item.Header>
                         <Item.Meta>Nazwa uzytkownika nie moze byc zmieniona</Item.Meta>
-                        <Item.Description>{currentUser.username}</Item.Description>
+                        <Item.Description>{data.findUser.username}</Item.Description>
                     </Item.Content>
                 </Item>
                 <Item>
                     <Item.Content>
                         <Item.Header>Email</Item.Header>
                         <Item.Meta>Zmien adres email dla tego konta</Item.Meta>
-                        <Item.Description>{currentUser.email}</Item.Description>
+                        <Item.Description>{data.findUser.email}</Item.Description>
                         <Button color='blue' floated='right' onClick={() => setActiveEmailChange(true)}>Edytuj</Button>
                         {activeEmailChange 
                             ? <Form onSubmit={handleEmailChange}>
@@ -93,7 +124,7 @@ const UserAdmin = ({ userId, currentUser }) => {
                                     <label>Nowy adres email</label>
                                     <input value={newEmail} onChange={({ target }) => setNewEmail(target.value)} />
                                 </Form.Field>
-                                <Form.Button color='blue' type='submit'>
+                                <Form.Button color='blue' type='submit' loading={EmailUpdateLoading}>
                                     Zmien Adres Email
                                 </Form.Button>
                             </Form> 
@@ -131,7 +162,7 @@ const UserAdmin = ({ userId, currentUser }) => {
                 <Item>
                     <Item.Content>
                         <Item.Header>Usun Konto</Item.Header>
-                        <Item.Meta>Usun konto uzytownika {currentUser.username} z naszego serwisu</Item.Meta>
+                        <Item.Meta>Usun konto uzytownika {data.findUser.username} z naszego serwisu</Item.Meta>
                         <Item.Description>UWAGA - TA OPERACJA NIEODWRACALNIE USUNIE WSZYSTKIE DANE TEGO UZYTKOWNIKA Z NASZEGO SYSTEMU</Item.Description>
                         <Button negative floated='right' onClick={() => setActiveDeleteAccount(true)}>Usun konto</Button>
                         {activeDeleteAccount
