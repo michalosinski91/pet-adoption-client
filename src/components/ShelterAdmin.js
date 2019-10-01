@@ -18,10 +18,10 @@ const ShelterAdmin = ({ shelter, currentUser, shelterRefetch }) => {
             <Container style={{ margin: '50px', minHeight: '100vh'}}>
                 <Header as='h2' textAlign='center'>Profil administracyjny: {shelter.name}</Header>
                 <Menu fluid widths={4}>
-                    <Menu.Item name='Wiadomosci' active={showPanel == 'messages'} onClick={() => setShowPanel('messages')} />
-                    <Menu.Item name='Dane Placówki' active={showPanel == 'editDetails'} onClick={() => setShowPanel('editDetails')} />
-                    <Menu.Item name='Zwierzeta' active={showPanel == 'editAnimals'} onClick={() => setShowPanel('editAnimals')} /> 
-                    <Menu.Item name='Dodaj Zwierze' active={showPanel == 'addAnimal'} onClick={() => setShowPanel('addAnimal')} />    
+                    <Menu.Item name='Wiadomości' active={showPanel == 'messages'} onClick={() => setShowPanel('messages')} />
+                    <Menu.Item name='Dane placówki' active={showPanel == 'editDetails'} onClick={() => setShowPanel('editDetails')} />
+                    <Menu.Item name='Zwierzęta' active={showPanel == 'editAnimals'} onClick={() => setShowPanel('editAnimals')} /> 
+                    <Menu.Item name='Dodaj zwierzę' active={showPanel == 'addAnimal'} onClick={() => setShowPanel('addAnimal')} />    
                 </Menu>
                 <ShelterMessages showPanel={showPanel} shelter={shelter} />
                 <ShelterEdit showPanel={showPanel} shelter={shelter} />
@@ -38,8 +38,8 @@ const ShelterAdmin = ({ shelter, currentUser, shelterRefetch }) => {
             <Message 
                 warning 
                 size='big'
-                header='You are not authorized to view this page'
-                content='Please log in, then try again' 
+                header='Nie masz uprawnień do wyświetlania tej strony'
+                content='Zaloguj się i spróbuj ponownie' 
             />
         </Container>
     )

@@ -20,8 +20,8 @@ const AdminPanel = ({ shelters, currentUser}) => {
                 <Message 
                     warning 
                     size='big'
-                    header='You are not authorized to view this page'
-                    content='Please log in, then try again' 
+                    header='Nie masz uprawnień do wyświetlania tej strony'
+                    content='Zaloguj się i spróbuj ponownie' 
                 />
             </Container>
         )
@@ -30,7 +30,7 @@ const AdminPanel = ({ shelters, currentUser}) => {
         <Container style={{ margin: '50px', height: '100vh'}}>
             <Header as='h2' textAlign='center'>Panel administracyjny</Header>
             <Dropdown 
-                placeholder='Przejdz do schroniska' 
+                placeholder='Przejdź do schroniska' 
                 fluid
                 clearable
                 selection 

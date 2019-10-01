@@ -51,7 +51,6 @@ const UserAdmin = ({ userId, currentUser }) => {
 
     const [updateUserEmail, { loading: EmailUpdateLoading }] = useMutation(UPDATE_EMAIL)
 
-    //TODO: LINK FUNCTIONALITY WITH DB - need to write resolvers
     const handleEmailChange = async (event) => {
         event.preventDefault()
         try {
@@ -69,7 +68,7 @@ const UserAdmin = ({ userId, currentUser }) => {
         }
 
     }
-
+    //TODO: add functionality for password change and delete account
     const handlePasswordChange = async (event) => {
         event.preventDefault()
         setOldPassword('')
@@ -90,12 +89,12 @@ const UserAdmin = ({ userId, currentUser }) => {
     if (data.findUser && data.findUser.id !== currentUser.id) {
         return(
             <Container style={{ margin: '50px', minHeight: '100vh'}}>
-                <Header as='h2' textAlign='center'>Profil uzytkownika {data.findUser.username}</Header>
+                <Header as='h2' textAlign='center'>Profil użytkownika {data.findUser.username}</Header>
                 <Message 
                     warning 
                     size='big'
-                    header='You are not authorized to view this page'
-                    content='Please log in, then try again' 
+                    header='Nie masz uprawnień do wyświetlania tej strony'
+                    content='Zaloguj się i spróbuj ponownie' 
                 />
             </Container>
         )
@@ -103,12 +102,12 @@ const UserAdmin = ({ userId, currentUser }) => {
 
     return (
         <Container style={{ margin: '50px', minHeight: '100vh'}}>
-            <Header as='h2' textAlign='center'>Profil uzytkownika {data.findUser.username}</Header>
+            <Header as='h2' textAlign='center'>Profil użytkownika {data.findUser.username}</Header>
             <Item.Group divided style={{ marginTop: 100}}>
                 <Item>
                     <Item.Content>
-                        <Item.Header>Nazwa uzytkownika</Item.Header>
-                        <Item.Meta>Nazwa uzytkownika nie moze byc zmieniona</Item.Meta>
+                        <Item.Header>Nazwa użytkownika</Item.Header>
+                        <Item.Meta>Nazwa użytkownika nie może być zmieniona</Item.Meta>
                         <Item.Description>{data.findUser.username}</Item.Description>
                     </Item.Content>
                 </Item>
@@ -134,25 +133,25 @@ const UserAdmin = ({ userId, currentUser }) => {
                 </Item>
                 <Item>
                     <Item.Content>
-                        <Item.Header>Haslo</Item.Header>
-                        <Item.Meta>Zmien haslo</Item.Meta>
+                        <Item.Header>Hasło</Item.Header>
+                        <Item.Meta>Zmień hasło</Item.Meta>
                         <Button color='blue' floated='right' onClick={() => setActivePasswordChange(true)}>Edytuj</Button>
                         {activePasswordChange
                             ? <Form onSubmit={handlePasswordChange}>
                                 <Form.Field required width={6}>
-                                    <label>Obecne Haslo</label>
+                                    <label>Obecne hasło</label>
                                     <input type='password' value={oldPassword} onChange={({ target }) => setOldPassword(target.value)} />
                                 </Form.Field>
                                 <Form.Field required width={6}>
-                                    <label>Nowe Haslo</label>
+                                    <label>Nowe hasło</label>
                                     <input type='password' value={newPassword} onChange={({ target }) => setNewPassword(target.value)} />
                                 </Form.Field>
                                 <Form.Field required width={6}>
-                                    <label>Powtorz Nowe Haslo</label>
+                                    <label>Powtórz nowe hasło</label>
                                     <input type='password' value={repeatNewPassword} onChange={({ target }) => setRepeatNewPassword(target.value)} />
                                 </Form.Field>
                                 <Form.Button color='blue' type='submit'>
-                                    Zmien Haslo
+                                    Zmień hasło
                                 </Form.Button>
                             </Form>
                             : null
@@ -161,22 +160,22 @@ const UserAdmin = ({ userId, currentUser }) => {
                 </Item>
                 <Item>
                     <Item.Content>
-                        <Item.Header>Usun Konto</Item.Header>
-                        <Item.Meta>Usun konto uzytownika {data.findUser.username} z naszego serwisu</Item.Meta>
-                        <Item.Description>UWAGA - TA OPERACJA NIEODWRACALNIE USUNIE WSZYSTKIE DANE TEGO UZYTKOWNIKA Z NASZEGO SYSTEMU</Item.Description>
-                        <Button negative floated='right' onClick={() => setActiveDeleteAccount(true)}>Usun konto</Button>
+                        <Item.Header>Usuń Konto</Item.Header>
+                        <Item.Meta>Usuń konto użytkownika {data.findUser.username} z naszego serwisu</Item.Meta>
+                        <Item.Description>UWAGA - TA OPERACJA NIEODWRACALNIE USUNIE WSZYSTKIE DANE TEGO UŻYTKOWNIKA Z NASZEGO SYSTEMU</Item.Description>
+                        <Button negative floated='right' onClick={() => setActiveDeleteAccount(true)}>Usuń konto</Button>
                         {activeDeleteAccount
                             ? <Form onSubmit={handleDeleteAccount}>
-                                <Header style={{ marginTop: 50}}>Prosze wprowadzic Nazwe Uzytkownika i Haslo aby potwierdzic operacje usuniecia konta</Header>
+                                <Header style={{ marginTop: 50}}>Proszę wprowadzić nazwę użytkownika i hasło aby potwierdzić operację usunięcia konta</Header>
                                 <Form.Field required width={6}>
-                                    <label>Nazwa Uzytkownika</label>
+                                    <label>Nazwa użytkownika</label>
                                     <input value={accountToDelete} onChange={({ target }) => setAccountToDelete(target.value)} />
                                 </Form.Field>
                                 <Form.Field required width={6}>
-                                    <label>Haslo</label>
+                                    <label>Hasło</label>
                                     <input type='password' value={password} onChange={({ target }) => setPassword(target.value)} />
                                 </Form.Field>
-                                <Button negative type='submit'>Permanentnie Usun Konto</Button>
+                                <Button negative type='submit' disabled>Permanentnie usuń konto</Button>
                             </Form>
                             : null
                         }

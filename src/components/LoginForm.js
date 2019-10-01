@@ -27,21 +27,21 @@ const LoginForm = (props) => {
         <Grid textAlign='center' style={{ minHeight: '100vh'}} verticalAlign='middle'>
             <Grid.Column style={{ maxWidth: 450}}>
                 <Header as='h2' textAlign='center'>
-                    Zaloguj sie do konta
+                    Zaloguj się do konta
                 </Header>
                 <Form size='large' onSubmit={submit}>
                     <Form.Field>
-                        <label>Nazwa Uzytkownika</label>
+                        <label>Nazwa użytkownika</label>
                         <input value={username} onChange={({ target }) => setUsername(target.value)}/>
                     </Form.Field>
                     <Form.Field>
-                        <label>Haslo</label>
+                        <label>Hasło</label>
                         <input type='password' value={password} onChange={({ target }) => setPassword(target.value)} />
                     </Form.Field>
-                    <Form.Button size='large' color='blue' fluid type='submit' loading={loadingButton}>Zaloguj Sie</Form.Button>
+                    <Form.Button size='large' color='blue' fluid type='submit' loading={loadingButton}>Zaloguj się</Form.Button>
                 </Form>
                 <Message>
-                    Nie masz jeszcze konta? <a href='/register'>Zarejestruj sie</a>
+                    Nie masz jeszcze konta? <a href='/register'>Zarejestruj się</a>
                 </Message>
             </Grid.Column>
         </Grid>

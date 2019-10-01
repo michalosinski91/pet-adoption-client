@@ -56,7 +56,7 @@ const Navbar = ({ token, logout, currentUser }) => {
                             as={Link}
                             to={`/uzytkownik/${currentUser.id}`}
                         >
-                            Konto Uzytkownika
+                            Konto użytkownika
                         </Menu.Item>
                         <Menu.Item
                             name='logout'
@@ -64,7 +64,7 @@ const Navbar = ({ token, logout, currentUser }) => {
                             as={Link}
                             to='/'
                         >
-                            Wyloguj sie
+                            Wyloguj się
                         </Menu.Item>
                     </>
                     : <>
@@ -75,7 +75,7 @@ const Navbar = ({ token, logout, currentUser }) => {
                             as={Link}
                             to='/login'
                         >
-                            Zaloguj sie
+                            Zaloguj się
                         </Menu.Item>
                         <Menu.Item
                             name='rejstracja'
@@ -84,7 +84,7 @@ const Navbar = ({ token, logout, currentUser }) => {
                             as={Link}
                             to='/register'
                         >
-                            Zaloz konto
+                            Załóż konto
                         </Menu.Item>
                     </>
                 }

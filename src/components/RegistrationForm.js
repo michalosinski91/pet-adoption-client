@@ -35,7 +35,7 @@ const RegistrationForm = () => {
         event.preventDefault()
         setLoadingButton(true)
         if (password !== repeatPassword) {
-            setErrorMessage('Hasla sie nie zgadzaja')
+            setErrorMessage('Hasła się nie zgadzają')
             setLoadingButton(false)
             setTimeout(() => {
                 setErrorMessage(null)
@@ -58,8 +58,8 @@ const RegistrationForm = () => {
     const Redirect = () => {
         return(
             <Message positive>
-                Konto zostalo zalozone
-                <a href='/login'>Zaloguj sie</a>
+                Konto zostało założone
+                <a href='/login'>Zaloguj się</a>
             </Message>
         )
     }
@@ -70,29 +70,29 @@ const RegistrationForm = () => {
                 {!registrationSuccess
                     ? <>
                         <Header as='h2' textAlign='center'>
-                            Zaloz nowe konto
+                            Załóż nowe konto
                         </Header>
                         <Form size='large' onSubmit={submit}>
                             <Form.Field>
-                                <label>Nazwa Uzytkownika</label>
+                                <label>Nazwa użytkownika</label>
                                 <input value={username} onChange={({ target }) => setUsername(target.value)}/>
                             </Form.Field>
                             <Form.Field>
-                                <label>Adres E-mail</label>
+                                <label>Adres e-mail</label>
                                 <input value={email} onChange={({ target }) => setEmail(target.value)}/>
                             </Form.Field>
                             <Form.Field>
-                                <label>Haslo</label>
+                                <label>Hasło</label>
                                 <input type='password' value={password} onChange={({ target }) => setPassword(target.value)}/>
                             </Form.Field>
                             <Form.Field>
-                                <label>Powtorz Haslo</label>
+                                <label>Powtórz hasło</label>
                                 <input type='password' value={repeatPassword} onChange={({ target }) => setRepeatPassword(target.value)}/>
                             </Form.Field>
-                            <Form.Button size='large' color='blue' fluid type='submit' loading={loadingButton}>Zaloz Konto</Form.Button>
+                            <Form.Button size='large' color='blue' fluid type='submit' loading={loadingButton}>Załóż Konto</Form.Button>
                         </Form>
                         <Message>
-                            Masz juz konto? <a href='/login'> Zaloguj sie</a>
+                            Masz już konto? <a href='/login'> Zaloguj się</a>
                         </Message>
                     </>
                     : <Redirect />

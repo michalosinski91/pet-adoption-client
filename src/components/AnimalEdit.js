@@ -48,14 +48,14 @@ const AnimalEdit = ({ showPanel, shelter, shelterRefetch }) => {
                                 Edytuj
                             </Button>
                             <Button floated='left' color='red' onClick={() => deleteAnimal(animal)} >
-                                Usun
+                                Usuń
                             </Button>
                         </Item.Extra>
                     </Item.Content>
                 </Item>)
                 : <Message size='large'>
                     <Message.Header>
-                        Obecnie brak informacji o zwierzetach z tej placówki
+                        Obecnie brak informacji o zwierzętach z tej placówki
                     </Message.Header>
                 </Message>
             }

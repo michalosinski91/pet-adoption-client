@@ -7,10 +7,10 @@ const ShelterMessages = ({ showPanel, shelter }) => {
         <Item.Group divided style={{ marginTop: 50, display: checkShow}}>
             <Item>
                 <Item.Content>
-                    <Item.Header>Wiadomosci</Item.Header>
+                    <Item.Header>Wiadomości</Item.Header>
                     {shelter.messages 
-                        ? <p>Messages</p>
-                        : <p>Brak wiadomosci</p>
+                        ? <p>Wiadomości</p>
+                        : <p>Brak wiadomości</p>
                     }
                     
                 </Item.Content>

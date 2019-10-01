@@ -18,7 +18,7 @@ const ShelterEdit = ({ showPanel, shelter }) => {
                 </Item>
                 <Item>
                     <Item.Content>
-                        <Item.Header>Adress</Item.Header>
+                        <Item.Header>Adres</Item.Header>
                         <Item.Description>{shelter.address.street}, {shelter.address.city}, {shelter.address.postcode}, {shelter.address.county}</Item.Description>
                         <Button color='blue' floated='right'>Edytuj</Button>
                     </Item.Content>
@@ -39,10 +39,10 @@ const ShelterEdit = ({ showPanel, shelter }) => {
                 </Item>
                 <Item>
                     <Item.Content>
-                        <Item.Header>Usun Placówke</Item.Header>
-                        <Item.Meta>Usun konto placówki {shelter.name} z naszego serwisu</Item.Meta>
-                        <Item.Description>UWAGA - TA OPERACJA NIEODWRACALNIE USUNIE WSZYSTKIE DANE TEGO UZYTKOWNIKA Z NASZEGO SYSTEMU</Item.Description>
-                        <Button negative floated='right'>Usun konto</Button>
+                        <Item.Header>Usuń Placówkę</Item.Header>
+                        <Item.Meta>Usuń konto placówki {shelter.name} z naszego serwisu</Item.Meta>
+                        <Item.Description>UWAGA - TA OPERACJA NIEODWRACALNIE USUNIE WSZYSTKIE DANE TEJ PLACÓWKI Z NASZEGO SYSTEMU</Item.Description>
+                        <Button negative floated='right'>Usuń konto</Button>
                     </Item.Content>
                 </Item>
             </Item.Group>

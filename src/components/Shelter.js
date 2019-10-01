@@ -46,7 +46,7 @@ const Shelter = ({ shelter }) => {
                                     </Table.Row>
                                     <Table.Row>
                                         <Table.Cell>
-                                            Wojewodztwo
+                                            Województwo
                                         </Table.Cell>
                                         <Table.Cell>
                                             {`woj. ${shelter.address.county}`}
@@ -74,11 +74,11 @@ const Shelter = ({ shelter }) => {
                                 </Table.Body>
                             </Table>
                             <Popup 
-                                content='Usuluga obecnie niedostepna' 
+                                content='Usługa obecnie niedostepna' 
                                 hideOnScroll 
                                 position='top center'
                                 size='large'
-                                trigger={<Button size='large' color='blue' fluid>Wspomoz placówke finansowo</Button>} 
+                                trigger={<Button size='large' color='blue' fluid>Wspomóż placówkę finansowo</Button>} 
                             />
                         </Segment>
                     </Grid.Row>
@@ -88,21 +88,21 @@ const Shelter = ({ shelter }) => {
                                 <p>Masz pytanie do placówki?</p>
                             </Header>
                             <Form onSubmit={handleSubmitMessage} >
-                                <Form.Input required label='Imie i Nazwisko' value={name} onChange={({ target}) => setName(target.value)} />
+                                <Form.Input required label='Imię' value={name} onChange={({ target}) => setName(target.value)} />
                                 <Form.Input required label='Email' value={email} onChange={({ target}) => setEmail(target.value)} />
                                 <Form.Input label='Telefon' value={phone} onChange={({ target}) => setPhone(target.value)} />
-                                <Form.TextArea required label='Wiadomosc' value={message} onChange={({ target }) => setMessage(target.value)} />
-                                <Form.Button size='large' color='blue' fluid type='submit' loading={messageLoading} disabled>Wyslij wiadomosc</Form.Button>
+                                <Form.TextArea required label='Wiadomość' value={message} onChange={({ target }) => setMessage(target.value)} />
+                                <Form.Button size='large' color='blue' fluid type='submit' loading={messageLoading} disabled>Wyślij wiadomość</Form.Button>
                             </Form>
                             <Dimmer active onClick={() => setMessageSent(false)}>
-                                <Header as='h2' inverted>Coming Soon...</Header>
+                                <Header as='h2' inverted>Pracuję nad tym :)</Header>
                             </Dimmer>
                         </Dimmer.Dimmable>
                     </Grid.Row>
                 </Grid.Column>
                 <Grid.Column width={8} style={{ minWidth: '600px'}}>
                     <Segment>
-                        <Header as='h3' textAlign='center'>Zwierzeta z tej placówki</Header>
+                        <Header as='h3' textAlign='center'>Zwiezęta z tej placówki</Header>
                         {shelter.animals.length > 0 
                             ? <Item.Group divided>
                                 {shelter.animals.map(animal => <Item key={animal.id}>
@@ -116,7 +116,7 @@ const Shelter = ({ shelter }) => {
                             </Item.Group>
                             : <Message size='large'>
                                 <Message.Header>
-                                    Obecnie brak informacji o zwierzetach z tej placówki
+                                    Obecnie brak informacji o zwierzętach z tej placówki
                                 </Message.Header>
                             </Message>
                         }

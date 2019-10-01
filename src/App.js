@@ -185,16 +185,14 @@ const App = () => {
     }
     
     if (userError) {
-        console.log(userError)
         return (
-            <p>Error</p>
+            <p>Wystąpił błąd podczas zbierania danych o użytkowniku. Proszę spróbować ponownie</p>
         )
     }
 
     if (shelterError ) {
-        console.log(shelterError)
         return (
-            <p>Error</p>
+            <p>Wystąpił błąd podczas zbierania danych o schroniskach. Proszę spróować ponownie</p>
         )
     }
 

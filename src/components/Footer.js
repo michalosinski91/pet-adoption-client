@@ -10,11 +10,11 @@ const Footer = () => {
                     <Grid.Row>
                         <Grid.Column width={8}>
                             <Header inverted as='h4' content='O projekcie' />
-                            <p>Ten serwis zostal stworzny jako element nauki programowania w jezyku JavaScript, i przy uzyciu obecnie popularnych technilogii</p> 
+                            <p>Ten serwis został stworzny jako element nauki programowania w języku JavaScript.</p> 
                             <p>    
-                                Dane schronisk zebralem poprzez webscraping z uzyciem Puppeteer. Informacje przechowywane w serwisie MongoDB Atlas.
-                                Logika serwera napisana jest w Node.js przy uzyciu GraphQL i Apollo-Server.
-                                Do stworzenia frontend-u uzyte zostaly React, Apollo, SemanticUI i Google Maps API.
+                                Dane schronisk zebrałem poprzez web-scraping z użyciem Puppeteer. Informacje są przechowywane w serwisie MongoDB Atlas.
+                                Logika serwera napisana jest w Node.js przy użyciu GraphQL i ApolloServer.
+                                Do stworzenia frontend-u użyte zostały React, Apollo, SemanticUI i Google Maps API.
                                 Kod strony dostepny jest tutaj: Github
                             </p>
                         </Grid.Column>

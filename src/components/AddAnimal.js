@@ -93,7 +93,7 @@ const AddAnimal = ({ showPanel, shelterID, shelterRefetch }) => {
                 <Form style={{ marginTop: 50, display: checkShow}} onSubmit={handleAddAnimal} success={formSuccess}>
                     <Header as='h3' textAlign='center'>Dodaj Nowe Zwierze</Header>
                     <Form.Field required>
-                        <label>Imie</label>
+                        <label>Imię</label>
                         <input value={name} onChange={({ target }) => setName(target.value)}/>
                     </Form.Field>
                     <Form.Field>
@@ -110,11 +110,11 @@ const AddAnimal = ({ showPanel, shelterID, shelterRefetch }) => {
                         <input value={age} onChange={({ target }) => setAge(target.value)}/>
                     </Form.Field>
                     <Form.TextArea required label='opis' value={description} onChange={({ target }) => setDescription(target.value)} />
-                    <Form.Button content='Dodaj Zdjecie' labelPosition='left' icon='file' onClick={() => fileInputRef.current.click()}/>
+                    <Form.Button content='Dodaj Zdjęcie' labelPosition='left' icon='file' onClick={() => fileInputRef.current.click()}/>
                     <input type='file' ref={fileInputRef} style={{ display: 'none'}} onChange={({ target }) => fileUpload(target.files)} />
                     <Image src={image} size='small' centered />
                     <Form.Button style={{marginTop: '20px'}} fluid type='submit' color='blue' size='large' loading={loading}>Dodaj</Form.Button>
-                    <Message attached='bottom' success content='Zwierze zostalo dodane' />
+                    <Message attached='bottom' success content='Zwierze zostało dodane' />
                 </Form>
             </Grid.Column>
         </Grid>
