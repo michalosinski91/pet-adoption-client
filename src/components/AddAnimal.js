@@ -38,6 +38,11 @@ const AddAnimal = ({ showPanel, shelterID, shelterRefetch }) => {
 
     const [addAnimal, { loading }] = useMutation(ADD_ANIMAL)
 
+    const createFileInputRef = event => {
+        event.preventDefault()
+        fileInputRef.current.click()
+    }
+
     //TO DO - finish adding animal
     const handleAddAnimal = async (event) => {
         event.preventDefault()
@@ -71,9 +76,10 @@ const AddAnimal = ({ showPanel, shelterID, shelterRefetch }) => {
         }
     }
 
-    const fileUpload = async (files) => {
+    const fileUpload = async event => {
+        event.preventDefault()
         const data = new FormData();
-        data.append('file', files[0])
+        data.append('file', event.target.files[0])
         data.append('upload_preset', 'pet-adoption')
         try {
             const res = await fetch('https://api.cloudinary.com/v1_1/dke68lmlo/image/upload', {
@@ -93,7 +99,7 @@ const AddAnimal = ({ showPanel, shelterID, shelterRefetch }) => {
                 <Form style={{ marginTop: 50, display: checkShow}} onSubmit={handleAddAnimal} success={formSuccess}>
                     <Header as='h3' textAlign='center'>Dodaj Nowe Zwierze</Header>
                     <Form.Field required>
-                        <label>Imię</label>
+                        <label>Imie</label>
                         <input value={name} onChange={({ target }) => setName(target.value)}/>
                     </Form.Field>
                     <Form.Field>
@@ -110,11 +116,11 @@ const AddAnimal = ({ showPanel, shelterID, shelterRefetch }) => {
                         <input value={age} onChange={({ target }) => setAge(target.value)}/>
                     </Form.Field>
                     <Form.TextArea required label='opis' value={description} onChange={({ target }) => setDescription(target.value)} />
-                    <Form.Button content='Dodaj Zdjęcie' labelPosition='left' icon='file' onClick={() => fileInputRef.current.click()}/>
-                    <input type='file' ref={fileInputRef} style={{ display: 'none'}} onChange={({ target }) => fileUpload(target.files)} />
+                    <Form.Button content='Dodaj Zdjecie' labelPosition='left' icon='file' onClick={createFileInputRef}/>
+                    <input type='file' ref={fileInputRef} style={{ display: 'none'}} onChange={fileUpload} />
                     <Image src={image} size='small' centered />
                     <Form.Button style={{marginTop: '20px'}} fluid type='submit' color='blue' size='large' loading={loading}>Dodaj</Form.Button>
-                    <Message attached='bottom' success content='Zwierze zostało dodane' />
+                    <Message attached='bottom' success content='Zwierze zostalo dodane' />
                 </Form>
             </Grid.Column>
         </Grid>
