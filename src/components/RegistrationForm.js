@@ -38,7 +38,6 @@ const RegistrationForm = () => {
         const re = /^[a-z0-9_-]{3,15}$/igm
         setUsernameValid(re.test(arg))
     }
-
     const checkEmail = arg => {
         const re = /\S+@\S+\.\S+/
         setEmailValid(re.test(arg))
@@ -127,24 +126,34 @@ const RegistrationForm = () => {
             const result = await createUser({
                 variables: { email, username, password }
             })
+            setUsername('')
+            setEmail('')
+            setPassword('')
+            setRepeatPassword('')
+            setRegistrationSuccess(true)
         } catch (error) {
             setLoadingButton(false)
             console.log(error)
+            if (error.message.includes('Error, expected `username` to be unique.')) {
+                setErrorMessage(`Nazwa użytkownika '${username}' jest już zajęta`)
+                setLoadingButton(false)
+                setTimeout(() => {
+                    setErrorMessage(null)
+                }, 8000)
+            } else {
+                setErrorMessage(`Podczas rejstracji wystąpił błąd. Proszę spróbować ponownie`)
+                setLoadingButton(false)
+                setTimeout(() => {
+                    setErrorMessage(null)
+                }, 8000)
+            }
         }
-        setUsername('')
-        setEmail('')
-        setPassword('')
-        setRepeatPassword('')
-        setRegistrationSuccess(true)
-        
-
     }
 
     const Redirect = () => {
         return(
             <Message positive>
-                Konto zostało założone
-                <a href='/login'>Zaloguj się</a>
+                Konto zostało założone. <a href='/login'> Zaloguj się</a>
             </Message>
         )
     }
@@ -191,7 +200,7 @@ const RegistrationForm = () => {
                             </Message>
                         }
                         <Message>
-                            Masz już konto?  <a href='/login'>  Zaloguj się</a>
+                            Masz już konto? <a href='/login'> Zaloguj się</a>
                         </Message>
                     </>
                     : <Redirect />
