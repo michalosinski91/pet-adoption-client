@@ -43,7 +43,6 @@ const AddAnimal = ({ showPanel, shelterID, shelterRefetch }) => {
         fileInputRef.current.click()
     }
 
-    //TO DO - finish adding animal
     const handleAddAnimal = async (event) => {
         event.preventDefault()
         try {
@@ -99,11 +98,11 @@ const AddAnimal = ({ showPanel, shelterID, shelterRefetch }) => {
                 <Form style={{ marginTop: 50, display: checkShow}} onSubmit={handleAddAnimal} success={formSuccess}>
                     <Header as='h3' textAlign='center'>Dodaj Nowe Zwierze</Header>
                     <Form.Field required>
-                        <label>Imie</label>
+                        <label>Imię</label>
                         <input value={name} onChange={({ target }) => setName(target.value)}/>
                     </Form.Field>
                     <Form.Field>
-                        Rodzaj:
+                        Rodzaj
                     </Form.Field>
                     <Radio label='Pies' value='Pies' checked={type == 'Pies'} onChange={() => setType('Pies')} style={{ margin: '0px 10px 20px 10px'}} />
                     <Radio label='Kot' value='Kot' checked={type == 'Kot'} onChange={() => setType('Kot')} style={{ margin: '0px 10px 20px 10px'}} />  
@@ -116,11 +115,11 @@ const AddAnimal = ({ showPanel, shelterID, shelterRefetch }) => {
                         <input value={age} onChange={({ target }) => setAge(target.value)}/>
                     </Form.Field>
                     <Form.TextArea required label='opis' value={description} onChange={({ target }) => setDescription(target.value)} />
-                    <Form.Button content='Dodaj Zdjecie' labelPosition='left' icon='file' onClick={createFileInputRef}/>
+                    <Form.Button content='Dodaj Zdjęcie' labelPosition='left' icon='file' onClick={createFileInputRef}/>
                     <input type='file' ref={fileInputRef} style={{ display: 'none'}} onChange={fileUpload} />
                     <Image src={image} size='small' centered />
                     <Form.Button style={{marginTop: '20px'}} fluid type='submit' color='blue' size='large' loading={loading}>Dodaj</Form.Button>
-                    <Message attached='bottom' success content='Zwierze zostalo dodane' />
+                    <Message attached='bottom' success content='Zwierze zostało dodane' />
                 </Form>
             </Grid.Column>
         </Grid>

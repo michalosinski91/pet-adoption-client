@@ -102,7 +102,7 @@ const Shelter = ({ shelter }) => {
                 </Grid.Column>
                 <Grid.Column width={8} style={{ minWidth: '600px'}}>
                     <Segment>
-                        <Header as='h3' textAlign='center'>Zwiezęta z tej placówki</Header>
+                        <Header as='h3' textAlign='center'>Zwierzęta z tej placówki</Header>
                         {shelter.animals.length > 0 
                             ? <Item.Group divided>
                                 {shelter.animals.map(animal => <Item key={animal.id}>
