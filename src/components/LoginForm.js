@@ -23,7 +23,6 @@ const LoginForm = (props) => {
                 props.history.push('/')
             }
         } catch (error) {
-            console.log('test', error.message)
             if (error.message.includes(`GraphQL error: Użytkownik`)) {
                 setErrorMessage(`Użytkownik o nazwie '${username}' nie istnieje`)
                 setLoadingButton(false)

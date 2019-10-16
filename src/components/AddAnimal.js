@@ -83,6 +83,13 @@ const AddAnimal = ({ showPanel, shelterID, shelterRefetch }) => {
             }, 6000)
             return
         }
+        if (type.length < 1) {
+            setErrorMessage('Proszę wybrać typ zwierzęcia')
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 6000)
+            return
+        }
         if (breed.length < 1) {
             setErrorMessage('Proszę podać rasę')
             setTimeout(() => {
@@ -153,7 +160,11 @@ const AddAnimal = ({ showPanel, shelterID, shelterRefetch }) => {
             const file = await res.json()
             setImage(file.secure_url)
         } catch (error) {
-            console.log(error)
+                setErrorMessage('Wystąpił błąd podczas operacjii dodania zwierzęcia. Proszę spróbować ponownie.')
+                setTimeout(() => {
+                    setErrorMessage(null)
+                }, 6000)
+                console.log(error)
         }
     }
     let checkShow = showPanel != 'addAnimal' ? 'none' : ''
@@ -169,7 +180,7 @@ const AddAnimal = ({ showPanel, shelterID, shelterRefetch }) => {
                             checkName(target.value)
                         }}/>
                     </Form.Field>
-                    <Form.Field required>
+                    <Form.Field>
                         Rodzaj
                     </Form.Field>
                     <Radio label='Pies' value='Pies' checked={type == 'Pies'} onChange={() => setType('Pies')} style={{ margin: '0px 10px 20px 10px'}} />

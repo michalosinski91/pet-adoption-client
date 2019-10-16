@@ -133,7 +133,6 @@ const RegistrationForm = () => {
             setRegistrationSuccess(true)
         } catch (error) {
             setLoadingButton(false)
-            console.log(error)
             if (error.message.includes('Error, expected `username` to be unique.')) {
                 setErrorMessage(`Nazwa użytkownika '${username}' jest już zajęta`)
                 setLoadingButton(false)
