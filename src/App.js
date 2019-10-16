@@ -121,9 +121,7 @@ const App = () => {
     const { data: shelterData, loading: shelterLoading, error: shelterError, refetch: shelterRefetch} = useQuery(ALL_SHELTERS)
     const { data: userData, refetch: userRefetch, error: userError } = useQuery(CURRENT_USER)
 
-    const [login] = useMutation(LOGIN, {
-        onError: handleError   
-    })
+    const [login, { error: loginError }] = useMutation(LOGIN)
 
     const [addShelter] = useMutation(ADD_SHELTER)
 
@@ -206,7 +204,7 @@ const App = () => {
                     <Route exact path='/admin/schroniska/:id' render={({ match }) => <ShelterAdmin shelter={shelterById(match.params.id)} currentUser={currentUser} shelterRefetch={shelterRefetch} />} />
                     <Route exact path='/schroniska/:id' render={({ match }) => <Shelter shelter={shelterById(match.params.id)}/>} />
                     <Route exact path='/uzytkownik/:id' render={({ match }) => <UserAdmin userId={match.params.id} currentUser={currentUser} />}  /> 
-                    <Route exact path='/login' render={() => <LoginForm login={login} setToken={(token) => setToken(token)} setCurrentUser={handleSetCurrentUser} />} />
+                    <Route exact path='/login' render={() => <LoginForm login={login} loginError={loginError} setToken={(token) => setToken(token)} setCurrentUser={handleSetCurrentUser} />} />
                     <Route exact path='/register' render={() => <RegistrationForm />} />
                     <Route exact path='/adminpanel' render={() => <AdminPanel currentUser={currentUser} shelters={shelterData.allShelters} />} />
                     <Footer />
