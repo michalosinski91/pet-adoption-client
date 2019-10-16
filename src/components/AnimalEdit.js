@@ -15,10 +15,12 @@ const REMOVE_ANIMAL = gql`
 `
 
 const AnimalEdit = ({ showPanel, shelter, shelterRefetch }) => {
+    const [loadingButton, setLoadingButton] = useState(false)
     let checkShow = showPanel != 'editAnimals' ? 'none' : ''
     const [removeAnimal] = useMutation(REMOVE_ANIMAL)
 
     const deleteAnimal = async (animal) => {
+        setLoadingButton(true)
         try {
             const result = await removeAnimal({
                 variables: {
@@ -27,8 +29,10 @@ const AnimalEdit = ({ showPanel, shelter, shelterRefetch }) => {
                 }
             })
             shelterRefetch()
+            setLoadingButton(false)
         } catch (error) {
             console.log(error)
+            setLoadingButton(false)
         }
     }
 
@@ -47,7 +51,7 @@ const AnimalEdit = ({ showPanel, shelter, shelterRefetch }) => {
                             <Button floated='left' color='blue' disabled>
                                 Edytuj
                             </Button>
-                            <Button floated='left' color='red' onClick={() => deleteAnimal(animal)} >
+                            <Button floated='left' color='red' disabled={loadingButton} onClick={() => deleteAnimal(animal)} >
                                 Usuń
                             </Button>
                         </Item.Extra>
