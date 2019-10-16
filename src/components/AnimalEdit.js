@@ -41,7 +41,7 @@ const AnimalEdit = ({ showPanel, shelter, shelterRefetch }) => {
                     <Item.Image size='medium' src={`${animal.image}`} />
                     <Item.Content>
                         <Item.Header>{animal.name}</Item.Header>
-                        <Item.Meta>{animal.type}, {animal.breed}, {animal.age}</Item.Meta>
+                        <Item.Meta>{animal.type}, {animal.breed}, {animal.age} lat</Item.Meta>
                         <Item.Content>{animal.description}</Item.Content>
                         <Item.Extra>
                             <Button floated='left' color='blue' disabled>

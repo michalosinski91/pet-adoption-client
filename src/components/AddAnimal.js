@@ -33,6 +33,10 @@ const AddAnimal = ({ showPanel, shelterID, shelterRefetch }) => {
     const [description, setDescription] = useState('')
     const [image, setImage] = useState('https://res.cloudinary.com/dke68lmlo/image/upload/v1567508001/pet-adoption/brak_zdjecia.png')
     const [formSuccess, setFormSuccess] = useState(false)
+    const [errorMessage, setErrorMessage] = useState(null)
+    const [nameValid, setNameValid] = useState(false)
+    const [breedValid, setBreedValid] = useState(false)
+    const [ageValid, setAgeValid] = useState(false)
 
     const fileInputRef = useRef()
 
@@ -43,8 +47,70 @@ const AddAnimal = ({ showPanel, shelterID, shelterRefetch }) => {
         fileInputRef.current.click()
     }
 
+    const checkName = arg => {
+        const re = /^(\w+ ?)*$/i
+        setNameValid(re.test(name))
+    }
+    const checkBreed = arg => {
+        const re = /^(\w+ ?)*$/i
+        setBreedValid(re.test(breed))
+    }
+    const checkAge = arg => {
+        const re = /[0-9]/
+        setAgeValid(re.test(Number(age)))
+    }
+
     const handleAddAnimal = async (event) => {
         event.preventDefault()
+        if (name.length < 2) {
+        setErrorMessage('Imię jest za krótkie - powinno zawierać co najmniej 2 litery')
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 6000)
+            return
+        }
+        if (name.length > 20) {
+        setErrorMessage('Imię jest za długie - powinno zawierać co najwyżej 20 liter')
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 6000)
+            return
+        }
+        if (age.length < 1) {
+            setErrorMessage('Proszę podać wiek')
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 6000)
+            return
+        }
+        if (breed.length < 1) {
+            setErrorMessage('Proszę podać rasę')
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 6000)
+            return
+        }
+        if (!nameValid) {
+            setErrorMessage('Wprowadzone imię nie spełnia wymogów')
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 6000)
+            return
+        }
+        if (!breedValid) {
+            setErrorMessage('Wprowadzona rasa nie spełnia wymogów')
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 6000)
+            return
+        }
+        if (!ageValid) {
+            setErrorMessage('Wprowadzony wiek nie spełnia wymogów')
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 6000)
+            return
+        }
         try {
             const result = await addAnimal({
                 variables: { 
@@ -58,7 +124,6 @@ const AddAnimal = ({ showPanel, shelterID, shelterRefetch }) => {
                 }
                 
             })
-            console.log(result)
             shelterRefetch()
             setFormSuccess(true)
             setTimeout(() => {
@@ -99,26 +164,40 @@ const AddAnimal = ({ showPanel, shelterID, shelterRefetch }) => {
                     <Header as='h3' textAlign='center'>Dodaj Nowe Zwierze</Header>
                     <Form.Field required>
                         <label>Imię</label>
-                        <input value={name} onChange={({ target }) => setName(target.value)}/>
+                        <input value={name} onChange={({ target }) => {
+                            setName(target.value)
+                            checkName(target.value)
+                        }}/>
                     </Form.Field>
-                    <Form.Field>
+                    <Form.Field required>
                         Rodzaj
                     </Form.Field>
                     <Radio label='Pies' value='Pies' checked={type == 'Pies'} onChange={() => setType('Pies')} style={{ margin: '0px 10px 20px 10px'}} />
                     <Radio label='Kot' value='Kot' checked={type == 'Kot'} onChange={() => setType('Kot')} style={{ margin: '0px 10px 20px 10px'}} />  
                     <Form.Field  required>
                         <label>Rasa</label>
-                        <input value={breed} onChange={({ target }) => setBreed(target.value)}/>
+                        <input value={breed} onChange={({ target }) => {
+                            setBreed(target.value)
+                            checkBreed(target.value)
+                        }}/>
                     </Form.Field>
                     <Form.Field  required>
-                        <label>Wiek</label>
-                        <input value={age} onChange={({ target }) => setAge(target.value)}/>
+                        <label>Wiek (w latach)</label>
+                        <input value={age} onChange={({ target }) => {
+                            setAge(target.value)
+                            checkAge(target.value)
+                        }}/>
                     </Form.Field>
-                    <Form.TextArea required label='opis' value={description} onChange={({ target }) => setDescription(target.value)} />
+                    <Form.TextArea label='opis' value={description} onChange={({ target }) => setDescription(target.value)} />
                     <Form.Button content='Dodaj Zdjęcie' labelPosition='left' icon='file' onClick={createFileInputRef}/>
                     <input type='file' ref={fileInputRef} style={{ display: 'none'}} onChange={fileUpload} />
                     <Image src={image} size='small' centered />
                     <Form.Button style={{marginTop: '20px'}} fluid type='submit' color='blue' size='large' loading={loading}>Dodaj</Form.Button>
+                    {errorMessage &&
+                        <Message negative>
+                            {errorMessage}
+                        </Message>
+                    }
                     <Message attached='bottom' success content='Zwierze zostało dodane' />
                 </Form>
             </Grid.Column>

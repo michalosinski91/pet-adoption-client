@@ -109,7 +109,7 @@ const Shelter = ({ shelter }) => {
                                     <Modal trigger={<Item.Image size='medium' src={`${animal.image}`} />} basic closeIcon><Image src={`${animal.image}`} size='massive' /></Modal>
                                     <Item.Content>
                                         <Item.Header>{animal.name}</Item.Header>
-                                        <Item.Meta>{animal.type}, {animal.breed}, {animal.age}</Item.Meta>
+                                        <Item.Meta>{animal.type}, {animal.breed}, {animal.age} lat</Item.Meta>
                                         <Item.Content>{animal.description}</Item.Content>
                                     </Item.Content>
                                 </Item>)}
