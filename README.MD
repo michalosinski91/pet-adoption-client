@@ -14,6 +14,7 @@ Shelter administrator:
 - Add, delete and amend details of animal(s) for the assigned shelter
 
 TO DO:
+- Search functionality
 - Messaging functionality
 - Editing functionality
 - Donations functionality
