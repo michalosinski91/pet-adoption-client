@@ -37,7 +37,7 @@ const authLink = setContext((_, { headers }) => {
 
 })
 
-const httpLink = createHttpLink({ uri: 'http://localhost:4000' })
+const httpLink = createHttpLink({ uri: '/graphql' })
 
 
 //merges the various links into one

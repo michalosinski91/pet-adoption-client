@@ -95,7 +95,7 @@ const Shelter = ({ shelter }) => {
                                 <Form.Button size='large' color='blue' fluid type='submit' loading={messageLoading} disabled>Wyślij wiadomość</Form.Button>
                             </Form>
                             <Dimmer active onClick={() => setMessageSent(false)}>
-                                <Header as='h2' inverted>Pracuję nad tym :)</Header>
+                                <Header as='h2' inverted>Usługa dostępna wkrótce</Header>
                             </Dimmer>
                         </Dimmer.Dimmable>
                     </Grid.Row>

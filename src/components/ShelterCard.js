@@ -11,7 +11,19 @@ const ShelterCard = ({ shelter }) => {
                 <Grid.Column>
                     <p>{`${shelter.address.street}, ${shelter.address.postcode} ${shelter.address.city}`}</p>
                     <p>{`woj. ${shelter.address.county}`}</p>
-                    <p><strong>{`${shelter.animals.length} zwierzeta potrzebujace domu`}</strong></p>
+                    <>
+                        {
+                            shelter.animals.length > 0
+                            ?  shelter.animals.length > 1
+                                ?   shelter.animals.length < 5
+                                    ? <p><strong>{`${shelter.animals.length} zwierząt potrzebujących domu`}</strong></p>
+                                    : <p><strong>{`${shelter.animals.length} zwierzęta potrzebujące domu`}</strong></p>
+                                :   <p><strong>1 zwierzę potrzebujące domu</strong></p>
+                                
+                            : <p><strong>Brak zwierząt w tej placówce</strong></p>
+                        }
+                    </>
+                    
                     <Button size='large' fluid color='blue' as={Link} to={`/schroniska/${shelter.id}`}>Zobacz szczegóły placówki</Button>
                 </Grid.Column>
             </Grid>
