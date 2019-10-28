@@ -15,7 +15,7 @@ const ShelterCard = ({ shelter }) => {
                         {
                             shelter.animals.length > 0
                             ?  shelter.animals.length > 1
-                                ?   shelter.animals.length < 5
+                                ?   shelter.animals.length > 5
                                     ? <p><strong>{`${shelter.animals.length} zwierząt potrzebujących domu`}</strong></p>
                                     : <p><strong>{`${shelter.animals.length} zwierzęta potrzebujące domu`}</strong></p>
                                 :   <p><strong>1 zwierzę potrzebujące domu</strong></p>
